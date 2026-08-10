@@ -9,10 +9,12 @@
       "url": "https://tarpan-katastr.jan-forejtar.workers.dev"
     },
     "Sagasu": {
-      "type": "http"
+      "type": "http",
+      "url": "https://sagasu.slv.cz"
     },
     "Salvia": {
-      "type": "http"
+      "type": "http",
+      "url": "https://mcp.slv.cz"
     }
   }
 }

@@ -4,19 +4,19 @@
   "description": "Nástroje TARPAN pro práci s českými veřejnými rejstříky.",
   "owner": {
     "name": "TARPAN",
-    "url": "https://github.com/forest2000/tarpan"
+    "url": "https://github.com/forest2000/tarpan-plugin-open"
   },
   "plugins": [
     {
       "name": "tarpan",
       "displayName": "TARPAN",
       "source": "./plugins/tarpan",
-      "version": "1.5.0",
+      "version": "1.6.2",
       "description": "Veřejné rejstříky, judikatura a právní výpočty pro advokátní praxi — ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Salvia (judikatura a předpisy), včetně výpisů do Wordu v úpravě TARPAN.",
       "author": {
         "name": "TARPAN"
       },
-      "repository": "https://github.com/forest2000/tarpan",
+      "repository": "https://github.com/forest2000/tarpan-plugin-open",
       "category": "legal",
       "keywords": [
         "ares",

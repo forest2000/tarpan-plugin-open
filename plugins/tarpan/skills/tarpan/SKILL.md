@@ -1,24 +1,6 @@
 ---
 name: tarpan
-description: >
-  Použij VŽDY, když je potřeba cokoli zjistit o firmě, podnikateli, osobě nebo
-  nemovitosti z veřejných rejstříků, dohledat judikaturu či znění předpisu, nebo
-  spočítat úrok z prodlení, odměnu advokáta a soudní poplatek. Pokrývá: kdo firmu
-  zastupuje a smí za ni jednat, sídlo, IČO, DIČ, spisovou značku, společníky,
-  předmět podnikání, insolvenci, nespolehlivého plátce DPH a zveřejněné účty,
-  datové schránky, zaniklé subjekty, firmy dané osoby, slovenské subjekty,
-  advokáty ČAK a SAK, listiny ze sbírky listin a jejich plný text, vlastníka
-  pozemku či bytu, číslo LV, výměru, plomby a katastrální řízení, judikaturu
-  všech stupňů soudů i insolvenční rejstřík a znění zákonů — a také vyhotovení
-  výpisu z ARES nebo z katastru do Wordu, kontrolu a doplnění údajů ve smlouvě
-  a prověrku protistrany. Triggery: „ARES", „rejstřík", „IČO", „jednatel",
-  „statutární orgán", „způsob jednání", „společníci", „sídlo firmy", „insolvence",
-  „nespolehlivý plátce", „datová schránka", „sbírka listin", „účetní závěrka",
-  „advokát", „katastr", „parcela", „LV", „list vlastnictví", „vlastník
-  nemovitosti", „stavba", „byt", „jednotka", „katastrální území", „právo stavby",
-  „plomba", „vklad do KN", „judikatura", „rozsudek", „nález", „sp. zn.", „zákon",
-  „úrok z prodlení", „odměna advokáta", „soudní poplatek", „prověřit protistranu",
-  „due diligence".
+description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků, dohledat judikaturu či znění předpisu, nebo spočítat úrok z prodlení, odměnu advokáta a soudní poplatek. Také na vyhotovení výpisu z ARES nebo z katastru do Wordu, na kontrolu a doplnění údajů ve smlouvě a na prověrku protistrany. Triggery: „ARES“, „rejstřík“, „IČO“, „jednatel“, „statutární orgán“, „způsob jednání“, „společníci“, „sídlo firmy“, „výpis“, „insolvence“, „nespolehlivý plátce“, „datová schránka“, „sbírka listin“, „účetní závěrka“, „advokát“, „katastr“, „parcela“, „LV“, „list vlastnictví“, „vlastník nemovitosti“, „stavba“, „byt“, „jednotka“, „katastrální území“, „právo stavby“, „plomba“, „vklad do KN“, „judikatura“, „rozsudek“, „nález“, „sp. zn.“, „zákon“, „úrok z prodlení“, „odměna advokáta“, „soudní poplatek“, „prověřit protistranu“, „due diligence“.
 ---
 
 # TARPAN — veřejné rejstříky, judikatura a výpočty
@@ -154,6 +136,31 @@ výpisem. Přehled vlastnictví pro danou osobu API neumí vůbec; na to je dál
 přístup ČÚZK nebo katastrální pracoviště.
 
 ## Výpisy do Wordu
+
+### Dokument nikdy nesestavuj sám
+
+Wordovský výstup vzniká **výhradně** z generátorů v těchhle konektorech:
+
+| Co | Čím |
+|---|---|
+| firma, podnikatel, prověrka protistrany, přehled sbírky listin | `ares_vypis` |
+| nemovitost — parcela, stavba, jednotka, právo stavby | `kn_vypis` |
+
+Nikdy nesestavuj výpis ani přehled sbírky listin vlastními silami — **žádný skill
+`docx`, žádné python-docx, žádný markdown převedený na Word, žádné vlastní
+nadpisy a tabulky.** Tyhle dokumenty odcházejí klientům a do spisu; jednotná
+úprava TARPAN je jejich součástí, ne kosmetika. Dokument, který si vyrobíš sám,
+je vadný, i kdyby obsahoval správná data.
+
+Přehled sbírky listin **není samostatný dokument** — je to sekce výpisu. Data
+z listin předej do `ares_vypis` v parametru `doplnky` (pole `listiny`,
+`ucetniZaverky`) a generátor je vysází sám, včetně tabulky účetních závěrek
+a shrnutí u jednotlivých listin.
+
+Vrátí-li generátor chybu, nebo místo dokumentu jen odkaz, **napiš to uživateli
+i s tou chybou** a skonči. Náhradní dokument nedělej — jiná grafická úprava je
+horší než žádný dokument. Typická příčina bývá nenasazená verze workeru nebo
+zastaralý popis nástroje v relaci; obojí se řeší mimo skill.
 
 ### Napřed se vždy zeptej, který výpis
 

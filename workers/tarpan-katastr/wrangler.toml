@@ -1,6 +1,0 @@
-name = "tarpan-katastr"
-main = "src/index.js"
-compatibility_date = "2026-08-02"
-
-# API klíč ČÚZK se NEUKLÁDÁ do tohoto souboru.
-# Nastav ho jako secret:  wrangler secret put CUZK_KN_API_KEY
