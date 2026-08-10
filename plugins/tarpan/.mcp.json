@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "tarpan-ares": {
+      "type": "http",
+      "url": "https://tarpan-ares.janforejtar.com"
+    },
+    "tarpan-katastr": {
+      "type": "http",
+      "url": "https://tarpan-katastr.jan-forejtar.workers.dev"
+    },
+    "Sagasu": {
+      "type": "http"
+    },
+    "Salvia": {
+      "type": "http"
+    }
+  }
+}
