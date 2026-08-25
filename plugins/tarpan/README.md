@@ -1,7 +1,9 @@
-# TARPAN
+# TARPAN — základ
 
-Veřejné rejstříky, judikatura a právní výpočty v jednom balíčku, včetně
-generování výpisů do Wordu v grafické úpravě TARPAN.
+Veřejné rejstříky, katastr a právní výpočty, včetně generování výpisů do Wordu
+v grafické úpravě TARPAN. Tenhle plugin je **základ obou balíčků** — instaluje
+se sám jako závislost balíčku TARPAN Legal i TARPAN Partners a není potřeba ho
+instalovat zvlášť.
 
 ## Konektory
 
@@ -10,11 +12,13 @@ generování výpisů do Wordu v grafické úpravě TARPAN.
 | `tarpan-ares` | ARES (Ministerstvo financí ČR) — obchodní a živnostenský rejstřík, RES, RÚIAN, historie zápisů, výpis do Wordu |
 | `tarpan-katastr` | REST API dálkového přístupu k datům KN (ČÚZK) — parcely, stavby, jednotky, právo stavby, řízení, výpis do Wordu |
 | `Sagasu` | insolvenční rejstřík, nespolehliví plátci DPH a zveřejněné účty, datové schránky, zaniklé subjekty, osoba → firmy, slovenské rejstříky, ČAK a SAK, plné texty listin, výpočty úroku z prodlení, odměny advokáta a soudního poplatku |
-| `Salvia` | judikatura obecných soudů, NS, NSS, ÚS a insolvenčního rejstříku, znění českých předpisů |
+| `tarpan-merk` | Merk (api.merk.cz) — ekonomika firem v ČR a SR: obrat a zisk, 42 finančních ukazatelů, účetní výkazy po řádcích, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny, živnosti, vozový park |
 
-`tarpan-ares` a `tarpan-katastr` běží jako Cloudflare Workers a přístupové údaje
-si drží samy. `Sagasu` a `Salvia` jsou konektory organizace a plugin je
-odkazuje jménem, ne adresou.
+`tarpan-ares`, `tarpan-katastr` a `tarpan-merk` běží jako Cloudflare Workers
+a přístupové údaje si drží samy. `Sagasu` je konektor organizace.
+
+Judikatura a znění předpisů tu **nejsou** — patří do balíčku TARPAN Legal
+(konektory `Salvia` a `esbirka`).
 
 ## Skill `tarpan`
 
@@ -32,6 +36,17 @@ REST API ČÚZK **neposkytuje jména vlastníků, podíly ani nabývací tituly*
 vrací číslo LV a katastrální území. Vlastník se ověřuje v Nahlížení do KN nebo
 úplným výpisem; skill na to sám upozorňuje a do výpisu doplňuje proklik.
 Přehled vlastnictví pro konkrétní osobu API neumí vůbec.
+
+**Merk není rejstřík.** Vrací aktuální údaje o firmě, ale **nemá historii zápisů**
+— dřívější firmu, bývalá sídla, vymazané členy orgánů ani data vzniku a zániku
+funkce. Kdo směl jednat k datu podpisu, se zjistí jedině z ARES. Company index
+je bonitní skóre Merku, tedy model, ne zjištěný fakt, a insolvence z Merku je
+přebraná — závazný je ISIR přes Sagasu.
+
+**Část volání Merku je placená** a ubírá z měsíčního limitu předplatného
+(našeptávač, účetní výkazy, veřejné zakázky, provozovny, živnosti, kontaktní
+osoby, vozový park, odpady). Konektor to u každé takové odpovědi hlásí a nástroj
+`merk_limity` ukáže zůstatek. Finanční ukazatele a graf vazeb placené nejsou.
 
 API KN má limit **500 volání za den** (`kn_sluzba` s `co: "stav_uctu"` vrátí
 zbytek) a vyhledávání polygonem je omezené na 5 000 m². Ostatní konektory

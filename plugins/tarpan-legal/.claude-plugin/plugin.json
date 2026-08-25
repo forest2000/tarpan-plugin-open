@@ -1,0 +1,39 @@
+{
+  "name": "tarpan-legal",
+  "version": "1.7.1",
+  "description": "Právní zdroje a metodika pro advokátní praxi — judikatura (Salvia), e-Sbírka a e-Legislativa (znění předpisů, konsolidace, novelizace a derogace, legislativní proces), komentářová literatura, unijní právo (EUR-Lex a CELLAR — nařízení a směrnice, konsolidovaná znění, judikatura SDEU, transpozice), a skilly pro rešerši, kontrolu smlouvy, NDA, triáž zadání a GDPR. Rozšiřuje balíček TARPAN.",
+  "author": {
+    "name": "TARPAN"
+  },
+  "dependencies": [
+    "tarpan"
+  ],
+  "keywords": [
+    "judikatura",
+    "předpisy",
+    "e-sbírka",
+    "e-legislativa",
+    "rešerše",
+    "konsolidované znění",
+    "účinnost",
+    "novelizace",
+    "derogace",
+    "czechvoc",
+    "nález ústavního soudu",
+    "legislativní proces",
+    "komentář",
+    "smlouva",
+    "nda",
+    "mlčenlivost",
+    "gdpr",
+    "osobní údaje",
+    "lhůty",
+    "promlčení",
+    "eur-lex",
+    "unijní právo",
+    "směrnice",
+    "sdeu",
+    "celex",
+    "transpozice"
+  ]
+}

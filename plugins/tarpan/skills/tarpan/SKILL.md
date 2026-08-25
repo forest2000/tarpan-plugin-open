@@ -1,9 +1,9 @@
 ---
 name: tarpan
-description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků, dohledat judikaturu či znění předpisu, nebo spočítat úrok z prodlení, odměnu advokáta a soudní poplatek. Také na vyhotovení výpisu z ARES nebo z katastru do Wordu, na kontrolu a doplnění údajů ve smlouvě a na prověrku protistrany. Triggery: „ARES“, „rejstřík“, „IČO“, „jednatel“, „statutární orgán“, „způsob jednání“, „společníci“, „sídlo firmy“, „výpis“, „insolvence“, „nespolehlivý plátce“, „datová schránka“, „sbírka listin“, „účetní závěrka“, „advokát“, „katastr“, „parcela“, „LV“, „list vlastnictví“, „vlastník nemovitosti“, „stavba“, „byt“, „jednotka“, „katastrální území“, „právo stavby“, „plomba“, „vklad do KN“, „judikatura“, „rozsudek“, „nález“, „sp. zn.“, „zákon“, „úrok z prodlení“, „odměna advokáta“, „soudní poplatek“, „prověřit protistranu“, „due diligence“.
+description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků, nebo spočítat úrok z prodlení, odměnu advokáta a soudní poplatek. Také na vyhotovení výpisu z ARES nebo z katastru do Wordu, na kontrolu a doplnění údajů ve smlouvě a na prověrku protistrany. Triggery: „ARES“, „rejstřík“, „IČO“, „jednatel“, „statutární orgán“, „způsob jednání“, „společníci“, „sídlo firmy“, „výpis“, „insolvence“, „nespolehlivý plátce“, „datová schránka“, „sbírka listin“, „účetní závěrka“, „advokát“, „katastr“, „parcela“, „LV“, „list vlastnictví“, „vlastník nemovitosti“, „stavba“, „byt“, „jednotka“, „katastrální území“, „právo stavby“, „plomba“, „vklad do KN“, „úrok z prodlení“, „odměna advokáta“, „soudní poplatek“, „prověřit protistranu“, „due diligence“, „Merk“, „finanční ukazatele“, „účetní výkazy“, „rozvaha“, „výsledovka“, „obrat“, „hospodářský výsledek“, „zadluženost“, „likvidita“, „bonita“, „vlastnická struktura“, „vazby firem“, „propojené osoby“, „veřejné zakázky“, „provozovny“.
 ---
 
-# TARPAN — veřejné rejstříky, judikatura a výpočty
+# TARPAN — veřejné rejstříky, katastr a výpočty
 
 Čtyři sady nástrojů. Nepoužívej je odděleně — většina reálných dotazů se dotýká
 dvou i tří najednou.
@@ -13,7 +13,12 @@ dvou i tří najednou.
 | `ares_*` | české ekonomické subjekty, obchodní a živnostenský rejstřík, RES, historie zápisů, **výpis do Wordu** |
 | `kn_*` | katastr nemovitostí ČR — parcely, stavby, jednotky, právo stavby, řízení, **výpis do Wordu** |
 | Sagasu | to, co ARES neumí: insolvence, DPH a účty, datové schránky, zaniklé subjekty, osoba → firmy, SK rejstříky, advokáti, plné texty listin, **výpočty** |
-| Salvia | judikatura všech stupňů soudů, insolvenční rejstřík a znění českých předpisů |
+| `merk_*` | ekonomika a vazby: obrat a zisk, finanční ukazatele, účetní výkazy, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny — CZ i SK |
+
+Judikaturu a znění předpisů tenhle balíček neobsahuje — jsou v balíčku **TARPAN
+Legal** (konektory Salvia a e-Sbírka). Nemáš-li je k dispozici, na dotaz po
+judikatuře nebo znění zákona odpověz, že na to nemáš zdroj, a neodpovídej
+z paměti.
 
 ## Železná pravidla
 
@@ -27,6 +32,13 @@ dvou i tří najednou.
 4. **Rizika hlas jako první.** Insolvence, likvidace, nespolehlivý plátce DPH,
    plomba na nemovitosti — tohle patří na začátek odpovědi, ne na konec.
 5. **Rozlišuj „rejstřík uvádí" a „lze dovodit".** Co v datech není, není.
+6. **Merk není rejstřík.** Ekonomiku a vazby ber z `merk_*`, ale kdo je zapsaný
+   jako statutární orgán, jak jedná a co bylo zapsáno kdy, čti **jen z ARES** —
+   jedině ten má historii zápisů. Company index je bonitní skóre Merku, tedy
+   model, ne zjištěný fakt; insolvenci z Merku vždy ověř v ISIR přes Sagasu.
+7. **Placená volání hlídej.** Část nástrojů `merk_*` ubírá z měsíčního limitu
+   předplatného — konektor to u každé takové odpovědi hlásí. Než pustíš dávku
+   dotazů nebo prověrku většího seznamu, zavolej `merk_limity`.
 
 ## Kam se kterým dotazem
 
@@ -60,6 +72,27 @@ drž se tohoto rozdělení a **netahej týž údaj z obou**:
 Sagasu nástroje `firma_detail` a `obchodni_rejstrik` tedy běžně nevolej — na
 subjekt jde `ares_detail_vse`. Výjimka: subjekt, který ARES nenajde (zaniklý).
 
+### Dělba práce s Merkem
+
+Merk se s ARES a Sagasu překrývá v aktuálních údajích o firmě, ale **nemá historii
+zápisů** a rejstříkové údaje z něj proto neber. Zato umí to, co ani ARES, ani Sagasu:
+
+| Co potřebuješ | Čím |
+|---|---|
+| obrat, zisk, EBITDA, velikostní kategorie a jejich trend | `merk_firma` |
+| finanční ukazatele — likvidita, zadluženost, ROA, ROE, marže, Z-skóre, index bonity | `merk_ukazatele` |
+| rozvaha a výsledovka po letech, po řádcích | `merk_vykazy` |
+| **kdo v firmě má podíl a jaký, kdo je ve funkci a od kdy** | `merk_vazby` |
+| **jak spolu dvě firmy nebo osoby souvisejí** | `merk_osoba` → `merk_cesta` |
+| veřejné zakázky subjektu | `merk_zakazky` |
+| provozovny, živnosti, vozový park, inzeráty, odpady | `merk_provozovny`, `merk_licence`, `merk_vozidla`, `merk_inzeraty`, `merk_odpady` |
+| vyhledání firem podle oboru, okresu, obratu nebo zisku | `merk_ciselnik` → `merk_hledat` |
+| kolik placených volání zbývá | `merk_limity` |
+
+**Původní účetní závěrku má Sagasu** (`sbirka_listin` → `listina_text`), Merk z ní
+dopočítává ukazatele. Potřebuješ-li citovat listinu, cituj listinu ze sbírky; Merk je
+na rychlý obraz a na srovnání v čase. Podrobnosti a pasti: `references/merk.md`.
+
 ### Sbírka listin a rozbor dokumentů
 
 Rejstřík říká, **co je zapsáno**; listiny říkají, **co se stalo a proč**. Když
@@ -89,10 +122,11 @@ A rozlišuj, co listina výslovně uvádí, od toho, co z ní dovozuješ.
 `kn_stavba_vyhledani` nebo `kn_jednotka_vyhledani`. Podrobnosti a pasti:
 `references/katastr.md`.
 
-**Judikatura a předpisy** → Salvia. `search_regulations` (název zákona → číslo
-a rok), `search_decisions` (rozhodnutí; indexy `ns`, `nss`, `us`, `justice`,
-`isir`). U obecné otázky prohledej několik indexů, ne jeden. Podrobnosti:
-`references/salvia.md`.
+**Judikatura a předpisy** → jen s balíčkem TARPAN Legal. Máš-li konektor Salvia,
+použij `search_regulations` (název zákona → číslo a rok) a `search_decisions`
+(rozhodnutí; indexy `ns`, `nss`, `us`, `justice`, `isir`) a u obecné otázky
+prohledej několik indexů, ne jeden; na přesné znění § je tam navíc konektor
+`esbirka`. Bez těchto konektorů judikaturu ani znění předpisu neuváděj.
 
 **Výpočty** → Sagasu: `urok_z_prodleni`, `odmena_advokata`, `soudni_poplatek`.
 Vrací i sazbu a rozpis — uveď obojí, nejen výsledek. U úroku z prodlení je
@@ -111,9 +145,15 @@ jen na část — a co jsi neověřil, napiš, že jsi neověřil.
 4. `dph_status` (IČO nebo DIČ) → plátce DPH, nespolehlivost, zveřejněné účty —
    platí-li se na účet mimo zveřejněné, hrozí ručení za nezaplacenou DPH
 5. `datova_schranka_vyhledat` → ID schránky pro doručování
-6. jde-li o nemovitostní transakci: `kn_*` → LV, plomby, způsoby ochrany, právo
+6. `merk_firma` → ekonomický obraz: obrat a jeho trend, zisk, velikost, bonitní
+   index. `merk_ukazatele` doplní likviditu a zadluženost, jde-li o plnění, které
+   se bude teprve poskytovat
+7. `merk_vazby` → kdo firmu ovládá a přes koho je propojená; u sporu nebo střetu
+   zájmů `merk_osoba` → `merk_cesta` mezi stranami
+8. jde-li o nemovitostní transakci: `kn_*` → LV, plomby, způsoby ochrany, právo
    stavby, vazba stavby k pozemku
-7. je-li spor nebo sporná otázka: Salvia → judikatura k tomu typu vztahu
+9. je-li spor nebo sporná otázka a máš balíček Legal: Salvia → judikatura k tomu
+   typu vztahu
 
 ## Propojení rejstříků
 
@@ -262,8 +302,7 @@ Kódy překládej do češtiny a původní kód nech v hranatých závorkách. P
 „110 00". Výměry v m² s mezerou po tisících. U právnických osob uváděj firmu,
 IČO, sídlo, spisovou značku a jednající osobu s funkcí a způsobem jednání.
 U nemovitostí parcelní číslo nebo č. p., katastrální území, obec a číslo LV —
-tak, jak se nemovitost označuje ve smlouvě. U judikatury vždy soud, spisovou
-značku, datum a odkaz.
+tak, jak se nemovitost označuje ve smlouvě.
 
 Podrobnosti k jednotlivým sadám: `references/ares.md`, `references/katastr.md`,
-`references/sagasu.md`, `references/salvia.md`.
+`references/sagasu.md`.

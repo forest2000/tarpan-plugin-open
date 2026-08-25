@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "Salvia": {
+      "type": "http",
+      "url": "https://mcp.slv.cz"
+    },
+    "esbirka": {
+      "type": "http",
+      "url": "https://tarpan-esbirka.jan-forejtar.workers.dev"
+    },
+    "komentar": {
+      "type": "http",
+      "url": "https://komentar.janforejtar.com/mcp"
+    },
+    "tarpan-eurlex": {
+      "type": "http",
+      "url": "https://tarpan-eurlex.jan-forejtar.workers.dev/mcp"
+    }
+  }
+}

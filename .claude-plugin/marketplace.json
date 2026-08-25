@@ -1,22 +1,22 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "tarpan",
-  "description": "Nástroje TARPAN pro práci s českými veřejnými rejstříky.",
+  "description": "Vývojový katalog TARPAN. Ostrý katalog pro kancelář je tarpan (forest2000/tarpan-plugin-open). Nástroje TARPAN pro práci s českými veřejnými rejstříky a právem. Vyberte si balíček: TARPAN Legal pro advokáty, TARPAN Partners pro kancelář.",
   "owner": {
     "name": "TARPAN",
-    "url": "https://github.com/forest2000/tarpan-plugin-open"
+    "url": "https://github.com/forest2000/tarpan"
   },
   "plugins": [
     {
       "name": "tarpan",
-      "displayName": "TARPAN",
+      "displayName": "TARPAN — základ",
       "source": "./plugins/tarpan",
-      "version": "1.6.2",
-      "description": "Veřejné rejstříky, judikatura a právní výpočty pro advokátní praxi — ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Salvia (judikatura a předpisy), včetně výpisů do Wordu v úpravě TARPAN.",
+      "version": "2.2.0",
+      "description": "Základ, který je součástí obou balíčků: veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), včetně výpisů do Wordu v úpravě TARPAN. Instaluje se sám jako závislost balíčků Legal a Partners.",
       "author": {
         "name": "TARPAN"
       },
-      "repository": "https://github.com/forest2000/tarpan-plugin-open",
+      "repository": "https://github.com/forest2000/tarpan",
       "category": "legal",
       "keywords": [
         "ares",
@@ -29,11 +29,82 @@
         "insolvence",
         "dph",
         "datová schránka",
-        "judikatura",
         "úrok z prodlení",
         "soudní poplatek",
         "due diligence",
-        "cuzk"
+        "cuzk",
+        "merk",
+        "finanční ukazatele",
+        "účetní výkazy",
+        "vlastnická struktura",
+        "vazby firem",
+        "veřejné zakázky",
+        "bonita"
+      ]
+    },
+    {
+      "name": "tarpan-legal",
+      "displayName": "TARPAN Legal",
+      "source": "./plugins/tarpan-legal",
+      "version": "1.7.1",
+      "description": "Pro advokáty: judikatura (Salvia), e-Sbírka a e-Legislativa (konsolidovaná znění, účinnost k datu, novelizace a derogace, nálezy ÚS, legislativní proces), komentářová literatura a unijní právo (EUR-Lex a CELLAR — nařízení a směrnice, konsolidace, judikatura SDEU, transpozice do ČR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání a GDPR. Zahrnuje balíček TARPAN — základ.",
+      "author": {
+        "name": "TARPAN"
+      },
+      "repository": "https://github.com/forest2000/tarpan",
+      "category": "legal",
+      "dependencies": [
+        "tarpan"
+      ],
+      "keywords": [
+        "judikatura",
+        "předpisy",
+        "e-sbírka",
+        "e-legislativa",
+        "rešerše",
+        "konsolidované znění",
+        "účinnost",
+        "novelizace",
+        "derogace",
+        "czechvoc",
+        "nález ústavního soudu",
+        "legislativní proces",
+        "komentář",
+        "smlouva",
+        "nda",
+        "mlčenlivost",
+        "gdpr",
+        "osobní údaje",
+        "lhůty",
+        "promlčení",
+        "eur-lex",
+        "unijní právo",
+        "směrnice",
+        "sdeu",
+        "celex",
+        "transpozice"
+      ]
+    },
+    {
+      "name": "tarpan-partners",
+      "displayName": "TARPAN Partners",
+      "source": "./plugins/tarpan-partners",
+      "version": "1.0.0",
+      "description": "Pro kancelář: veřejné rejstříky, katastr, výpisy do Wordu a prověrky protistran. Zahrnuje balíček TARPAN — základ.",
+      "author": {
+        "name": "TARPAN"
+      },
+      "repository": "https://github.com/forest2000/tarpan",
+      "category": "legal",
+      "dependencies": [
+        "tarpan"
+      ],
+      "keywords": [
+        "kancelář",
+        "rejstříky",
+        "výpisy",
+        "prověrka protistrany",
+        "due diligence"
       ]
     }
   ]

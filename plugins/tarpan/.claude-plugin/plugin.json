@@ -1,7 +1,7 @@
 {
   "name": "tarpan",
-  "version": "1.6.2",
-  "description": "Veřejné rejstříky, judikatura a právní výpočty pro advokátní praxi — ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Salvia (judikatura a předpisy), včetně výpisů do Wordu v úpravě TARPAN.",
+  "version": "2.2.0",
+  "description": "Veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem pro advokátní praxi — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), včetně výpisů do Wordu v úpravě TARPAN. Základ balíčků TARPAN Legal a TARPAN Partners.",
   "author": {
     "name": "TARPAN"
   },
@@ -16,10 +16,16 @@
     "insolvence",
     "dph",
     "datová schránka",
-    "judikatura",
     "úrok z prodlení",
     "soudní poplatek",
     "due diligence",
-    "cuzk"
+    "cuzk",
+    "merk",
+    "finanční ukazatele",
+    "účetní výkazy",
+    "vlastnická struktura",
+    "vazby firem",
+    "veřejné zakázky",
+    "bonita"
   ]
 }

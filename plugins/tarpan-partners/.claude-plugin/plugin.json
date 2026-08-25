@@ -1,0 +1,18 @@
+{
+  "name": "tarpan-partners",
+  "version": "1.0.0",
+  "description": "Balíček pro kancelář — veřejné rejstříky, katastr, výpisy do Wordu a prověrky protistran. Rozšiřuje balíček TARPAN o kancelářské nástroje.",
+  "author": {
+    "name": "TARPAN"
+  },
+  "dependencies": [
+    "tarpan"
+  ],
+  "keywords": [
+    "kancelář",
+    "rejstříky",
+    "výpisy",
+    "prověrka protistrany",
+    "due diligence"
+  ]
+}

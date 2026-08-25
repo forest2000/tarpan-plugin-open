@@ -12,9 +12,9 @@
       "type": "http",
       "url": "https://sagasu.slv.cz"
     },
-    "Salvia": {
+    "tarpan-merk": {
       "type": "http",
-      "url": "https://mcp.slv.cz"
+      "url": "https://tarpan-merk.jan-forejtar.workers.dev/mcp"
     }
   }
 }

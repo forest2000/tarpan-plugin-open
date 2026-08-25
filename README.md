@@ -1,26 +1,47 @@
-# TARPAN — marketplace pluginu
+# TARPAN — marketplace pluginů
 
-Repozitář slouží jediné věci: distribuci pluginu **TARPAN** do Claude.
+Repozitář slouží jediné věci: distribuci pluginů **TARPAN** do Claude Code.
 
 ## Instalace
 
-V Claude: **Plugins → Add → Add marketplace** a vložit adresu tohoto repozitáře.
-Pak plugin `tarpan` nainstalovat ze seznamu.
+```
+/plugin marketplace add forest2000/tarpan-plugin-open
+```
 
-## Co plugin přináší
+Pak podle toho, co děláš:
 
-Čtyři konektory (ARES, katastr nemovitostí ČR, Sagasu, Salvia) a skill `tarpan`
-s metodikou práce s veřejnými rejstříky, judikaturou a výpisy do Wordu
-v úpravě TARPAN.
+```
+/plugin install tarpan-legal@tarpan      # advokáti a koncipienti
+/plugin install tarpan-partners@tarpan   # kancelář, asistentky, sekretariát
+```
 
-## Vydání nové verze
+Balíček **tarpan** (základ) se doinstaluje sám jako závislost — samostatně ho
+instalovat nemusíš.
 
-1. upravit soubory v `plugins/tarpan/`
-2. zvednout `version` v `plugins/tarpan/.claude-plugin/plugin.json`
-   **i** v `.claude-plugin/marketplace.json` — bez toho se nová verze
-   k uživatelům nedostane
-3. `git commit` a `git push`
-4. uživatelé: **Plugins → marketplace tarpan → Update**
+## Co je v čem
+
+| Balíček | Pro koho | Co přináší |
+|---|---|---|
+| **tarpan** (základ) | všichni | ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty úroku, odměny a soudního poplatku) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb). Výpisy do Wordu v úpravě TARPAN. Skill `tarpan`. |
+| **tarpan-legal** | advokáti, koncipienti | Navíc judikatura (Salvia), e-Sbírka a e-Legislativa, komentářová literatura a unijní právo (EUR-Lex/CELLAR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání, GDPR. |
+| **tarpan-partners** | kancelář | Základ plus prověrky protistran a výpisy do Wordu. |
+
+## Aktualizace
+
+```
+/plugin marketplace update tarpan
+```
+
+Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
+
+## Meze
+
+Konektory vracejí údaje z veřejných rejstříků a databází, ne právní stanovisko.
+Co z nich přijde, je podklad — právní kvalifikaci a odpovědnost za výstup nese
+advokát. U ekonomických a vazebních dat platí navíc, že vypovídají o tom, co je
+zapsané; nezapsaný stav v nich není.
+
+## Kde jsou zdrojáky
 
 Zdrojové kódy workerů, testy a vývojová dokumentace jsou ve vývojovém
-repozitáři `forest2000/tarpan`; sem patří jen to, co se instaluje.
+repozitáři `forest2000/tarpan`. Sem se překlápí jen to, co se instaluje.
