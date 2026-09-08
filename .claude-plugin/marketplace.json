@@ -11,7 +11,7 @@
       "name": "tarpan",
       "displayName": "TARPAN — základ",
       "source": "./plugins/tarpan",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "description": "Základ, který je součástí obou balíčků: veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), včetně výpisů do Wordu v úpravě TARPAN. Instaluje se sám jako závislost balíčků Legal a Partners.",
       "author": {
         "name": "TARPAN"
