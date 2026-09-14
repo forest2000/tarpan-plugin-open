@@ -131,6 +131,28 @@ nemusí existovat vůbec. CELLAR v takovém případě tiše podstrčí jiný ja
 požadovaného, musí to být v odpovědi klientovi vidět** — citovat anglické znění jako
 české je vada.
 
+## Fulltextové vyhledávání (eu_vyhledat)
+
+`eu_vyhledat` je od verze 1.1.0 plná expert-search, ne jen hledání v předpisech. Výchozí
+je fulltext předpisů; ostatní schopnosti zapneš parametry:
+
+- `kolekce` — kde hledat: `predpisy` (výchozí), `judikatura` (rozhodnutí SDEU a Tribunálu),
+  `mezinarodni_smlouvy`, `pripravne_akty`, `vnitrostatni_transpozice`, `parlamentni_otazky`,
+  `efta`. **Fulltext judikatury SDEU dělej přes `kolekce: "judikatura"`** — je to jiná věc
+  než `eu_judikatura`, které vrací vazby judikatury ke konkrétnímu aktu z grafu
+  (citace/výklad/předběžná otázka), nikoli fulltext.
+- `pole` — `text` (výchozí) / `nazev` / `text_i_nazev`.
+- `operator` — `vse` (všechna slova, výchozí) / `libovolne` / `fraze` (přesná fráze) / `blizkost`.
+- `typ` (nařízení/směrnice/rozhodnutí), `autor`, `eurovoc`, `predmet`, `pravni_zaklad` — zúžení.
+- `razeni`, `velikost` (1–100), `stranka` — stránkování; `stranka × velikost` nesmí překročit
+  10 000, jinak konektor vrátí chybu (dotaz je pak nutné zúžit datem/kolekcí/typem).
+- `bez_konsolidaci`, `jen_posledni_konsolidace` — práce s konsolidovanými zněními.
+- `expert` — syrový EUR-Lex expert dotaz (např. `TI ~ emise AND AU = comm`), když parametry
+  nestačí; při jeho zadání se ostatní filtry ignorují.
+
+Ve výsledku je u položek navíc `typ`, `autor` a `odkaz`. Shrnuto: vazby judikatura↔akt řeš
+`eu_judikatura`, fulltext napříč kolekcemi `eu_vyhledat`.
+
 ## Kvóta fulltextu
 
 `eu_vyhledat` běží přes EUR-Lex webservice s **kvótou 1 000 volání za den** (reset

@@ -41,11 +41,11 @@ Mají přednost před vším ostatním.
 - Nejsilnější postup je **od předpisu k judikatuře**: zjisti číslo a rok předpisu, pak filtruj `search_decisions` podle něj a podle §. Podrobně `references/salvia.md`.
 
 **TARPAN Komentáře** (`komentar`) — výklad k ustanovení.
-- `get_commentary(law, section)` — **primární**, když znáš §. Vrací komentář ze všech dostupných publikací a u každé `last_updated`, tedy datum poslední aktualizace té publikace.
+- `get_commentary(law, section)` — **primární**, když znáš §. Vrací komentář ze všech dostupných publikací a u každé `last_updated`, tedy datum poslední aktualizace té publikace. Nahoře vrací `platnost` (zda § v platném znění existuje, `overeno_dnes`) a u každého komentáře `pouzitelnost` — živé porovnání znění § z podkladu komentáře proti **dnešnímu účinnému znění**.
 - `compare_commentary(law, section)` — **porovná výklad téhož § ve více publikacích.** Použij všude, kde je otázka sporná: rozdíl mezi publikacemi je sám o sobě zjištění a patří do výstupu.
 - `search_commentary(query, law)` — fulltext; jen na neobvyklé pojmy, když číslo § nejde odvodit. `law` bere i pole (`["OZ","ZOK"]`).
 - **Pokrytí je omezené na deset předpisů**: OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER. K čemukoli jinému komentář nemáš — a nesmíš ho tedy nahradit výkladem z paměti. Napiš, že komentář k danému předpisu není k dispozici, a opři výklad o judikaturu a důvodovou zprávu.
-- **Komentář stárne jinak než zákon.** Je-li `last_updated` starší než poslední novela dotčeného §, může být výklad překonaný — ověř datem z `esbirka_historie` a v takovém případě to ve výstupu uveď.
+- **Komentář stárne jinak než zákon — a `pouzitelnost` ti to řekne.** Konektor porovnává znění § z doby vydání komentáře s dnešním účinným zněním a vrací `shoda_pct` a `stav`: `odpovídá platnému znění` / `drobné odchylky — zkontrolovat` / `POUŽITELNÝ JEN ZČÁSTI — znění se změnilo` / `NEODPOVÍDÁ platnému znění — výrazná změna` / `USTANOVENÍ V PLATNÉM ZNĚNÍ NEEXISTUJE`. Cokoli pod „odpovídá" znamená, že komentář vykládá jiné znění, než platí dnes — **do výstupu to napiš** a necituj takový výklad jako platné právo bez upozornění. Je-li `stav_ustanoveni: neověřeno` (e-Sbírka nedostupná nebo chybí číslo předpisu), ověř aktuálnost sám přes `esbirka_historie`.
 
 **EUR-Lex / CELLAR** (`tarpan-eurlex`) — **unijní právo:** nařízení a směrnice, konsolidovaná znění, platnost, judikatura SDEU, transpozice do ČR.
 - `eu_identifikace` — citace („nařízení (EU) 2016/679", „GDPR", „C-311/18"), CELEX, ELI nebo ECLI → **ověřený** identifikátor. **Volej jako první**; jako jediný ověřuje existenci aktu dotazem.
