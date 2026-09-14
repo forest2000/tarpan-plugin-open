@@ -46,7 +46,7 @@
       "name": "tarpan-legal",
       "displayName": "TARPAN Legal",
       "source": "./plugins/tarpan-legal",
-      "version": "1.7.2",
+      "version": "1.7.3",
       "description": "Pro advokáty: judikatura (Salvia), e-Sbírka a e-Legislativa (konsolidovaná znění, účinnost k datu, novelizace a derogace, nálezy ÚS, legislativní proces), komentářová literatura a unijní právo (EUR-Lex a CELLAR — nařízení a směrnice, konsolidace, judikatura SDEU, transpozice do ČR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání a GDPR. Zahrnuje balíček TARPAN — základ.",
       "author": {
         "name": "TARPAN"
