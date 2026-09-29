@@ -11,6 +11,11 @@ Tento skill vznikl sloučením a adaptací dvou otevřených skillů (obojí MIT
 Adaptace pro TARPAN: sloučení a deduplikace obou sad, přidání české sady tellů
 a právního režimu (ochrana definovaných pojmů, číslování, citací a částek).
 
+Skill `rukopis` vznikl sloučením dvou dřívějších skillů TARPAN — `humanizer`
+(stylistický přepis, z něj pochází obsah výše) a `cistopis` (orchestrace
+přepisu textu a technického čištění souboru, vlastní dílo TARPAN). Přidává
+stylový profil uživatele, podle kterého se text přepisuje do jeho hlasu.
+
 Obě původní díla jsou licencována pod MIT. Kopie licence viz níže / v původních
 repozitářích.
 

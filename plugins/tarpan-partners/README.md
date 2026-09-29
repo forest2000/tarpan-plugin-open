@@ -1,14 +1,21 @@
 # TARPAN Partners
 
-Balíček pro kancelář. Obsahuje celý základ TARPAN — veřejné rejstříky, katastr
-nemovitostí, výpisy do Wordu a metodiku prověrky protistrany.
+Balíček pro kancelář. Zatím obsahuje základ TARPAN — veřejné rejstříky,
+katastr nemovitostí, ekonomiku firem z Merku a výpisy do Wordu; kancelářské
+skilly přibudou.
 
 ```
 /plugin install tarpan-partners@tarpan
 ```
 
 Základ (`tarpan`) se doinstaluje sám jako závislost, takže po instalaci máte
-konektory `tarpan-ares`, `tarpan-katastr` a `Sagasu` a skill `tarpan`.
+konektory `tarpan-ares`, `tarpan-katastr`, `Sagasu` a `tarpan-merk` a skilly:
+
+| Skill | K čemu |
+|---|---|
+| `tarpan` | rejstříky, katastr, Merk, výpočty, výpisy do Wordu, prověrka protistrany |
+| `rukopis` | přepis textu od Clauda do stylu uživatele, bez stop po AI |
+| `remove-ai-marks` | odstranění neviditelných znaků a metadat ze souboru před odesláním |
 
 ## Proč existuje samostatný balíček
 

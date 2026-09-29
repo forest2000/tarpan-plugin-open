@@ -30,6 +30,17 @@ neposkytuje a jak psát výsledek, aby byl ověřitelný.
 Podrobnosti k jednotlivým sadám jsou v `skills/tarpan/references/` a načítají se
 až ve chvíli, kdy jsou potřeba.
 
+## Skilly `rukopis` a `remove-ai-marks`
+
+Dvě vrstvy přípravy textu k odeslání, v tomto pořadí:
+
+| Skill | K čemu |
+|---|---|
+| `rukopis` | přepíše text od Clauda tak, aby nezněl jako od AI a zněl jako od uživatele — podle jeho stylového profilu (`~/.claude/tarpan/rukopis.md`); fakta a právní registr nemění |
+| `remove-ai-marks` | z hotového souboru odstraní neviditelné znaky a metadata s AI proveniencí; ověřitelně, s počty |
+
+`rukopis` nahradil dřívější skilly `cistopis` a `humanizer`.
+
 ## Co je dobré vědět
 
 REST API ČÚZK **neposkytuje jména vlastníků, podíly ani nabývací tituly** —

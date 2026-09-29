@@ -1,6 +1,6 @@
 ---
 name: pravni-reserse
-description: Metodika důkladné právní rešerše s konektory e-Sbírka/e-Legislativa, Salvia, TARPAN Komentáře, EUR-Lex a Merk. Použij VŽDY, když je úkolem rešerše, ověření aktuálního a přesného znění zákonného ustanovení, dohledání a posouzení relevantní judikatury, projití komentáře a navazujících předpisů, dohledání unijního předpisu a judikatury SDEU, fulltextové vyhledávání v právu, nebo příprava podkladu, kde záleží na 100% přesnosti, podloženosti citacemi a analytickém zvážení argumentů. Skill vede ke krok-za-krokem ověřenému, citacemi podloženému výstupu. Netriggeruj pro pouhé formátování hotového dokumentu.
+description: Metodika důkladné právní rešerše s konektory e-Sbírka/e-Legislativa, Salvia, TARPAN Komentáře, EUR-Lex a Merk. Použij VŽDY, když je úkolem rešerše, ověření aktuálního a přesného znění zákonného ustanovení, dohledání a posouzení relevantní judikatury, projití komentáře a navazujících předpisů, dohledání unijního předpisu a judikatury SDEU, fulltextové vyhledávání v právu, nebo příprava podkladu, kde záleží na 100% přesnosti, podloženosti citacemi a analytickém zvážení argumentů. Skill vede ke krok-za-krokem ověřenému, citacemi podloženému výstupu. Netriggeruj pro pouhé formátování hotového dokumentu; metodiku analýzy a psaní výstupu řeší advokat.
 ---
 
 # Právní rešerše — metodika

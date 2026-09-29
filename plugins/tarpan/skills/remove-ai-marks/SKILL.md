@@ -7,7 +7,9 @@ description: >-
   ověřitelné (spočítá, co odstranilo). Použij VŽDY, když jde o „vodoznak",
   „metadata", „C2PA", „neviditelné znaky", „skryté znaky", „vyčisti PDF/DOCX/
   obrázek před odesláním", „strip metadata". Netriggeruj pro stylistický přepis
-  textu (na to je humanizer); celý dokument k odeslání řeš přes cistopis.
+  textu — na to je rukopis, který se spouští jako první; tento skill až po něm
+  na finální soubor.
+allowed-tools: Read, Write, Bash(python3:*), Bash(exiftool:*), Bash(qpdf:*)
 ---
 
 # Remove AI marks — technická vrstva čištění
@@ -29,14 +31,14 @@ pro metadata volitelně systémové `exiftool`, `qpdf`, `ghostscript`).
 
 2. **Nejdřív inspekce, ukaž nález:**
    ```bash
-   python clean_marks.py inspect <cesta>
+   python3 clean_marks.py inspect <cesta>
    ```
    Report vypíše, kolik a jakých neviditelných znaků soubor obsahuje (u binárních
    souborů řekne, zda jsou nástroje na metadata k dispozici).
 
 3. **Pak čištění do nového souboru:**
    ```bash
-   python clean_marks.py clean <cesta> --out <cesta>.clean.<pripona>
+   python3 clean_marks.py clean <cesta> --out <cesta>.clean.<pripona>
    ```
    - Textová vrstva (vždy): smaže zero-width, bidi, tag-znaky, variation selectors.
    - Souborová vrstva (když jsou nástroje): strhne EXIF/XMP/IPTC a u PDF přeuloží

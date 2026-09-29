@@ -1,6 +1,6 @@
 ---
 name: tarpan
-description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků, nebo spočítat úrok z prodlení, odměnu advokáta a soudní poplatek. Také na vyhotovení výpisu z ARES nebo z katastru do Wordu, na kontrolu a doplnění údajů ve smlouvě a na prověrku protistrany. Triggery: „ARES“, „rejstřík“, „IČO“, „jednatel“, „statutární orgán“, „způsob jednání“, „společníci“, „sídlo firmy“, „výpis“, „insolvence“, „nespolehlivý plátce“, „datová schránka“, „sbírka listin“, „účetní závěrka“, „advokát“, „katastr“, „parcela“, „LV“, „list vlastnictví“, „vlastník nemovitosti“, „stavba“, „byt“, „jednotka“, „katastrální území“, „právo stavby“, „plomba“, „vklad do KN“, „úrok z prodlení“, „odměna advokáta“, „soudní poplatek“, „prověřit protistranu“, „due diligence“, „Merk“, „finanční ukazatele“, „účetní výkazy“, „rozvaha“, „výsledovka“, „obrat“, „hospodářský výsledek“, „zadluženost“, „likvidita“, „bonita“, „vlastnická struktura“, „vazby firem“, „propojené osoby“, „veřejné zakázky“, „provozovny“.
+description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků (ARES, katastr, Sagasu, Merk), spočítat úrok z prodlení, odměnu advokáta nebo soudní poplatek, vyhotovit výpis z ARES či katastru do Wordu, zkontrolovat a doplnit údaje o straně ve smlouvě nebo prověřit protistranu. Triggery: „ARES“, „IČO“, „jednatel“, „způsob jednání“, „katastr“, „LV“, „list vlastnictví“, „insolvence“, „výpis“, „úrok z prodlení“, „Merk“, „finanční ukazatele“, „vlastnická struktura“, „prověřit protistranu“, „due diligence“. Úplný výčet spouštěčů je v těle skillu. Judikaturu a znění předpisů tenhle skill nedává (jsou v TARPAN Legal), stylistický přepis textu také ne (na to je rukopis).
 ---
 
 # TARPAN — veřejné rejstříky, katastr a výpočty
@@ -19,6 +19,25 @@ Judikaturu a znění předpisů tenhle balíček neobsahuje — jsou v balíčku
 Legal** (konektory Salvia a e-Sbírka). Nemáš-li je k dispozici, na dotaz po
 judikatuře nebo znění zákona odpověz, že na to nemáš zdroj, a neodpovídej
 z paměti.
+
+## Kdy tento skill použít
+
+Kdykoli se dotaz týká některé z těchto věcí, i když uživatel nepoužije přesně
+tato slova:
+
+- **subjekt a rejstříky:** ARES, rejstřík, IČO, jednatel, statutární orgán,
+  způsob jednání, společníci, sídlo firmy, výpis, datová schránka, sbírka
+  listin, účetní závěrka, advokát
+- **rizika:** insolvence, nespolehlivý plátce, prověřit protistranu, due
+  diligence
+- **nemovitosti:** katastr, parcela, LV, list vlastnictví, vlastník
+  nemovitosti, stavba, byt, jednotka, katastrální území, právo stavby, plomba,
+  vklad do KN
+- **výpočty:** úrok z prodlení, odměna advokáta, soudní poplatek
+- **ekonomika a vazby (Merk):** finanční ukazatele, účetní výkazy, rozvaha,
+  výsledovka, obrat, hospodářský výsledek, zadluženost, likvidita, bonita,
+  vlastnická struktura, vazby firem, propojené osoby, veřejné zakázky,
+  provozovny
 
 ## Železná pravidla
 
@@ -99,24 +118,9 @@ Rejstřík říká, **co je zapsáno**; listiny říkají, **co se stalo a proč
 je otázka „kdy a jak se to změnilo", „kdo to schválil", „jaké má společnost
 stanovy" nebo „jak si stojí hospodářsky", sáhni po listinách.
 
-1. `sbirka_listin(ico)` → seznam s popisem, datem vzniku, zveřejnění a počtem
-   listů. Funguje i pro **vymazané** společnosti. Stránkuje se (`pocet_celkem`,
-   `strana`) — projdi všechny strany, ne jen první.
-2. Má-li položka pole `casti`, je listina rozdělená na víc digitálních částí,
-   každá s vlastním `dokument` ID. Účetní závěrka podaná přes finanční správu
-   bývá `.doc` (příloha) + `.xml` (strojově čitelná závěrka) + `.pdf` (rozvaha
-   a výsledovka). Pole `dokument` míří jen na první část — rozvahu čti z `.pdf`
-   nebo `.xml` v `casti`.
-3. `listina_text(dokument)` → plný text. Stránkuje se; jdi podle `_dalsi`, dokud
-   je co číst. Vypadá-li text rozsypaně (přeházená písmena, mojibake), zavolej
-   znovu s `force_ocr=True` — pak se čte po jednotlivých stránkách PDF.
-4. `digitalizovan: false` znamená, že listina digitální podobu nemá; napiš to.
-
-Z listin si ověřuj to, co z rejstříku nevyčteš: znění stanov a způsob jednání
-v konkrétní době, kdo valnou hromadu svolal a kdo na ní hlasoval, jestli byl
-notářský zápis pořízen, hospodářské výsledky. Vždy uveď, ze které listiny údaj
-pochází — značku a datum, například „notářský zápis NZ 855/2023 z 22. 6. 2023".
-A rozlišuj, co listina výslovně uvádí, od toho, co z ní dovozuješ.
+Postup (stránkování, části listiny, OCR, citace zdroje): `references/listiny.md`.
+Vždy uveď, ze které listiny údaj pochází — značku a datum — a rozlišuj, co
+listina výslovně uvádí, od toho, co z ní dovozuješ.
 
 **Nemovitost** → `kn_uzemi` (název → kód), pak `kn_parcela_vyhledani`,
 `kn_stavba_vyhledani` nebo `kn_jednotka_vyhledani`. Podrobnosti a pasti:
@@ -252,26 +256,9 @@ který vypadá jako úřední listina:
 - Ukázkový nebo testovací dokument nikdy nedělej na skutečnou firmu — použij
   smyšlené IČO a název.
 
-**Shrnutí obsahu listin.** U každé listiny, kterou jsi přes `listina_text`
-skutečně přečetl, vyplň pole `udalosti` — číslovaný výčet toho, co listina
-způsobila, ne převyprávění jejího textu. Piš konkrétně a se jmény, funkcemi
-a daty účinnosti:
-
-- „změna zastupování — nově ‚za společnost ve všech věcech navenek samostatně
-  jedná člen správní rady‘" (u změny způsobu jednání uveď původní i nové znění)
-- „odvolán Martin Bernát z funkce člena správní rady s účinností k 19. 10. 2022"
-- „jmenován Tomáš Hasman, nar. 12. 7. 1985, členem správní rady"
-- „změna firmy z ‚Masná a.s.‘ na ‚Mincovní, a.s.‘"
-- „přijato nové úplné znění stanov nahrazující stanovy ze 3. 4. 2017"
-
-Listinu, kterou jsi nečetl, nech **bez** `udalosti` — výpis u ní sám napíše
-„obsah listiny nebyl čten". Byl-li text nečitelný i po OCR, vyplň `nejisty: true`
-a shrnutí označ jako předběžné.
-
-**Účetní závěrky** dej zvlášť do pole `ucetniZaverky`: za každý rok `vysledek`
-(zisk nebo ztráta s částkou), `trzby`, `aktiva`, `vlastniKapital` a `poznamka`
-(například chybějící příloha nebo pozdní podání). Čísla ber z `.pdf` nebo `.xml`
-části závěrky, ne z přílohy ve Wordu.
+Shrnutí přečtených listin (pole `udalosti`, `nejisty`) a tabulku účetních
+závěrek (pole `ucetniZaverky`) vyplň podle `references/listiny.md`. Listinu,
+kterou jsi nečetl, nech bez `udalosti`.
 
 **Katastr** — `kn_vypis` vrací ve výchozím nastavení **hotový dokument přímo
 v odpovědi** (pole `soubor_gzip_base64`). Nikdy jeho obsah nevypisuj do chatu.
@@ -305,4 +292,4 @@ U nemovitostí parcelní číslo nebo č. p., katastrální území, obec a čí
 tak, jak se nemovitost označuje ve smlouvě.
 
 Podrobnosti k jednotlivým sadám: `references/ares.md`, `references/katastr.md`,
-`references/sagasu.md`.
+`references/sagasu.md`, `references/merk.md`; sbírka listin: `references/listiny.md`.

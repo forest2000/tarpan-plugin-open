@@ -93,7 +93,7 @@ Zkontroluj, že smlouva obsahuje:
 | osud údajů po skončení | výmaz nebo vrácení podle volby správce, s výjimkou zákonné archivace |
 | audit a kontrola | rozsah, frekvence, náklady |
 
-**Na čí straně stojíš, rozhoduje.** Jako správce chceš krátké lhůty, právo na audit a odpovědnost zpracovatele; jako zpracovatel chceš vymezený rozsah součinnosti, náklady auditu na správci a limit odpovědnosti. Zeptej se, za koho jednáme, než začneš připomínkovat — postup je jinak stejný jako u skillu `kontrola-smlouvy`, včetně mezí podle `kontrola-smlouvy/references/kogentni.md`.
+**Na čí straně stojíš, rozhoduje.** Jako správce chceš krátké lhůty, právo na audit a odpovědnost zpracovatele; jako zpracovatel chceš vymezený rozsah součinnosti, náklady auditu na správci a limit odpovědnosti. Zeptej se, za koho jednáme, než začneš připomínkovat — postup je jinak stejný jako u skillu `kontrola-smlouvy`, včetně mezí podle `../kontrola-smlouvy/references/kogentni.md`.
 
 ---
 

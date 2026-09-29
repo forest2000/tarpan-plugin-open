@@ -22,9 +22,9 @@ instalovat nemusíš.
 
 | Balíček | Pro koho | Co přináší |
 |---|---|---|
-| **tarpan** (základ) | všichni | ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty úroku, odměny a soudního poplatku) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb). Výpisy do Wordu v úpravě TARPAN. Skill `tarpan`. |
+| **tarpan** (základ) | všichni | ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty úroku, odměny a soudního poplatku) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb). Výpisy do Wordu v úpravě TARPAN. Skilly `tarpan`, `rukopis` (přepis textu do tvého stylu) a `remove-ai-marks` (čištění souboru před odesláním). |
 | **tarpan-legal** | advokáti, koncipienti | Navíc judikatura (Salvia), e-Sbírka a e-Legislativa, komentářová literatura a unijní právo (EUR-Lex/CELLAR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání, GDPR. |
-| **tarpan-partners** | kancelář | Základ plus prověrky protistran a výpisy do Wordu. |
+| **tarpan-partners** | kancelář | Zatím základ TARPAN (rejstříky, katastr, Merk, výpisy do Wordu); kancelářské skilly přibudou. |
 
 ## Aktualizace
 
@@ -33,6 +33,22 @@ instalovat nemusíš.
 ```
 
 Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
+
+## Změny
+
+**tarpan 3.0.0 · tarpan-legal 1.7.4 · tarpan-partners 1.0.1**
+
+- Skilly `cistopis` a `humanizer` jsou sloučené do nového skillu **`rukopis`**.
+  Přepisuje text od Clauda tak, aby nezněl jako od AI a zněl jako od tebe —
+  podle stylového profilu, který si skill s tvým souhlasem vytvoří ze vzorků
+  tvých textů (`~/.claude/tarpan/rukopis.md`). Kdo používal `cistopis` nebo
+  `humanizer`, říká teď totéž a spustí se `rukopis`.
+- `remove-ai-marks` zůstává samostatný a navazuje na `rukopis`: nejdřív text,
+  potom soubor.
+- Přesnější popisy skillů, aby se u právní otázky nenačítaly zbytečně dva
+  (`advokat` × `pravni-reserse`).
+- TARPAN Partners už neslibuje prověrky protistran navíc — zatím obsahuje
+  základ, kancelářské skilly přibudou.
 
 ## Meze
 

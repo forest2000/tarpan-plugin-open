@@ -1,6 +1,6 @@
 {
   "name": "tarpan",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "description": "Veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem pro advokátní praxi — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), včetně výpisů do Wordu v úpravě TARPAN. Základ balíčků TARPAN Legal a TARPAN Partners.",
   "author": {
     "name": "TARPAN"

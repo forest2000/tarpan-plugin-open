@@ -1,22 +1,22 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "tarpan",
-  "description": "Vývojový katalog TARPAN. Ostrý katalog pro kancelář je tarpan (forest2000/tarpan-plugin-open). Nástroje TARPAN pro práci s českými veřejnými rejstříky a právem. Vyberte si balíček: TARPAN Legal pro advokáty, TARPAN Partners pro kancelář.",
+  "description": "Nástroje TARPAN pro práci s českými veřejnými rejstříky a právem. Vyberte si balíček: TARPAN Legal pro advokáty, TARPAN Partners pro kancelář.",
   "owner": {
     "name": "TARPAN",
-    "url": "https://github.com/forest2000/tarpan"
+    "url": "https://github.com/forest2000/tarpan-plugin-open"
   },
   "plugins": [
     {
       "name": "tarpan",
       "displayName": "TARPAN — základ",
       "source": "./plugins/tarpan",
-      "version": "2.2.1",
+      "version": "3.0.0",
       "description": "Základ, který je součástí obou balíčků: veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), včetně výpisů do Wordu v úpravě TARPAN. Instaluje se sám jako závislost balíčků Legal a Partners.",
       "author": {
         "name": "TARPAN"
       },
-      "repository": "https://github.com/forest2000/tarpan",
+      "repository": "https://github.com/forest2000/tarpan-plugin-open",
       "category": "legal",
       "keywords": [
         "ares",
@@ -46,12 +46,12 @@
       "name": "tarpan-legal",
       "displayName": "TARPAN Legal",
       "source": "./plugins/tarpan-legal",
-      "version": "1.7.3",
+      "version": "1.7.4",
       "description": "Pro advokáty: judikatura (Salvia), e-Sbírka a e-Legislativa (konsolidovaná znění, účinnost k datu, novelizace a derogace, nálezy ÚS, legislativní proces), komentářová literatura a unijní právo (EUR-Lex a CELLAR — nařízení a směrnice, konsolidace, judikatura SDEU, transpozice do ČR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání a GDPR. Zahrnuje balíček TARPAN — základ.",
       "author": {
         "name": "TARPAN"
       },
-      "repository": "https://github.com/forest2000/tarpan",
+      "repository": "https://github.com/forest2000/tarpan-plugin-open",
       "category": "legal",
       "dependencies": [
         "tarpan"
@@ -89,12 +89,12 @@
       "name": "tarpan-partners",
       "displayName": "TARPAN Partners",
       "source": "./plugins/tarpan-partners",
-      "version": "1.0.0",
-      "description": "Pro kancelář: veřejné rejstříky, katastr, výpisy do Wordu a prověrky protistran. Zahrnuje balíček TARPAN — základ.",
+      "version": "1.0.1",
+      "description": "Balíček pro kancelář — zatím obsahuje základ TARPAN (rejstříky, katastr, Merk, výpisy do Wordu); kancelářské skilly přibudou.",
       "author": {
         "name": "TARPAN"
       },
-      "repository": "https://github.com/forest2000/tarpan",
+      "repository": "https://github.com/forest2000/tarpan-plugin-open",
       "category": "legal",
       "dependencies": [
         "tarpan"

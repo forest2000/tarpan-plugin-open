@@ -1,6 +1,6 @@
 ---
 name: advokat
-description: Metodika práce advokáta TARPAN Legal — jak vést právní analýzu, jak číst a vykládat právní předpisy, jak hledat definice pojmů, jak pracovat s judikaturou a číst celé rozsudky, a jak to celé psát ve stylu kanceláře. Použij tento skill VŽDY, když uživatel chce vyřešit právní otázku, posoudit právní problém, připravit právní analýzu nebo memorandum, vyložit ustanovení zákona, zjistit význam právního pojmu, najít a přečíst judikaturu nebo komentář, nebo se obecně ptá „jak na to" z pohledu advokáta — i když nepoužije slovo „analýza" či „advokát". Skill využívá konektory e-Sbírka, Salvia, TARPAN Komentáře, EUR-Lex, ARES a Merk a vede k odpovědím, které jsou podložené, ověřitelné a ve formátu kanceláře. Netriggeruj pro pouhé formátování hotového dokumentu do šablony ani pro kontrolu konkrétní smlouvy (na to je kontrola-smlouvy).
+description: Metodika práce advokáta TARPAN Legal — jak vést právní analýzu, jak číst a vykládat právní předpisy, jak hledat definice pojmů, jak pracovat s judikaturou a číst celé rozsudky, a jak to celé psát ve stylu kanceláře. Použij tento skill VŽDY, když uživatel chce vyřešit právní otázku, posoudit právní problém, připravit právní analýzu nebo memorandum, vyložit ustanovení zákona, zjistit význam právního pojmu, najít a přečíst judikaturu nebo komentář, nebo se obecně ptá „jak na to" z pohledu advokáta — i když nepoužije slovo „analýza" či „advokát". Skill využívá konektory e-Sbírka, Salvia, TARPAN Komentáře, EUR-Lex, ARES a Merk a vede k podloženým, ověřitelným odpovědím ve formátu kanceláře. Netriggeruj pro formátování hotového dokumentu do šablony, pro kontrolu konkrétní smlouvy (na to je kontrola-smlouvy), ani pro důkladnou rešerši s ověřením znění a judikatury (na to je pravni-reserse).
 ---
 
 # Advokát — metodika právní práce v TARPAN Legal
@@ -51,7 +51,7 @@ Používej je aktivně, ne jako poslední možnost.
 - `eu_judikatura` — rozhodnutí SDEU a Tribunálu k aktu, s **druhem vazby** (viz níže). `eu_vec` vrátí celý balík jedné věci: rozsudek, stanovisko GA, oznámení.
 - `eu_transpozice` — česká prováděcí opatření (NIM) ke směrnici. Neúplná, nezávazná, bez mapování na §; u nařízení se NIM nevede vůbec.
 - `eu_vyhledat` — fulltext v předpisech EU. **Denní kvóta 1 000 volání**; bez přihlašovacích údajů nebo po vyčerpání degraduje na hledání v názvech a napíše to. Zbytek kvóty ukáže `eu_sluzba`.
-- Sektory a deskriptory CELEX, konstrukce identifikátoru z citace, citační norma a dva režimy Úředního věstníku: `references/eurlex.md`.
+- Sektory a deskriptory CELEX, konstrukce identifikátoru z citace, citační norma a dva režimy Úředního věstníku: `../pravni-reserse/references/eurlex.md`.
 
 **ARES a rejstříky** (`tarpan-ares`, `Sagasu` — ze základního balíčku)
 - `ares_vyhledat` (název → IČO, ověř), pak `ares_detail_vse` — sídlo, spisová značka, statutární orgán, způsob jednání.
@@ -81,7 +81,7 @@ Salvia unijní právo nemá, EUR-Lex české soudy nemá. Nepřebíjejí se — 
 
 ### Kam se kterým dotazem — unijní právo
 
-**Nejdřív `eu_identifikace`, teprve pak čti.** Je to stejná logika jako „nejdřív IČO, pak detail" u firem: `eu_identifikace` je jediný nástroj, který existenci aktu ověřuje dotazem — ostatní berou CELEX jako vstup a nekontrolují ho. Pravidla v `references/eurlex.md` jsou tam proto, abys citaci rozuměl, ne aby ses podle nich trefoval. **Zkonstruovaný a neověřený CELEX je nepravdivé tvrzení o právu, které skončí v memorandu pro klienta.**
+**Nejdřív `eu_identifikace`, teprve pak čti.** Je to stejná logika jako „nejdřív IČO, pak detail" u firem: `eu_identifikace` je jediný nástroj, který existenci aktu ověřuje dotazem — ostatní berou CELEX jako vstup a nekontrolují ho. Pravidla v `../pravni-reserse/references/eurlex.md` jsou tam proto, abys citaci rozuměl, ne aby ses podle nich trefoval. **Zkonstruovaný a neověřený CELEX je nepravdivé tvrzení o právu, které skončí v memorandu pro klienta.**
 
 Postup u otázky s unijní vrstvou:
 
@@ -120,7 +120,7 @@ Tělo skillu je rozcestník. Detailní metodiku najdeš zde — načti relevantn
 - **`references/cteni-predpisu.md`** — jak číst a vykládat předpisy: struktura normy, hledání legálních definic, výkladové metody (jazykový/systematický/teleologický/historický), lex specialis vs. lex generalis, lex posterior, vztah k ústavnímu pořádku a EU právu, účinnost a intertemporalita, práce s odkazy a poznámkami pod čarou. Čti v kroku 2–3.
 - **`references/judikatura.md`** — jak pracovat s judikaturou: jak číst celý rozsudek (záhlaví, výrok, odůvodnění, body), právní věta vs. nosné důvody vs. obiter dictum, jak poznat, zda je názor stále platný (sjednocující stanoviska, velký senát, plénum ÚS, pozdější odklon), výběr indexů, formát citace. Čti v kroku 4.
 - **`references/analyza.md`** — jak postavit právní analýzu/memorandum: struktura, jak psát závěr, jak vážit argumenty a protiargumenty, jak odstupňovat míru jistoty, časté chyby. Čti v kroku 5–6.
-- **`references/eurlex.md`** — EUR-Lex a CELLAR: sektory a deskriptory CELEX, konstrukce identifikátoru z citace, ECLI vs. CELEX, citační norma a dva režimy Úředního věstníku, konsolidace bez právní hodnoty, druh vazby u judikatury, NIM a jeho meze, jazykový fallback, postup fulltextového hledání (volba kolekce, pole a operátoru, recepty, syrový expert dotaz), denní kvóta a degradovaný režim. Čti, kdykoli je ve hře unijní právo.
+- **`../pravni-reserse/references/eurlex.md`** — EUR-Lex a CELLAR: sektory a deskriptory CELEX, konstrukce identifikátoru z citace, ECLI vs. CELEX, citační norma a dva režimy Úředního věstníku, konsolidace bez právní hodnoty, druh vazby u judikatury, NIM a jeho meze, jazykový fallback, postup fulltextového hledání (volba kolekce, pole a operátoru, recepty, syrový expert dotaz), denní kvóta a degradovaný režim. Čti, kdykoli je ve hře unijní právo.
 - **`references/house-style.md`** — formát kanceláře: definice, zkratky předpisů (litigace vs. ostatní dokumenty), označení společností a stran, data, měny, uvozovky, citace komentářů a judikatury. Vždy, když píšeš výstup.
 
 ## Tón a forma výstupu
