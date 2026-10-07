@@ -166,8 +166,12 @@ def cmd_clean(path: str, out: str | None, spaces: bool, metadata: bool) -> dict:
         with open(out, "w", encoding="utf-8", newline="") as f:
             f.write(cleaned)
         rep["layer"] = "text"
-        rep["verified_removed"] = {"invisible_chars": before,
-                                   "count": sum(before.values()) if not spaces else removed}
+        # ověřeno = rozdíl skenu před a po (NBSP bez --spaces zůstává a sem nepatří)
+        after = scan_text(cleaned)
+        gone = {k: v - after.get(k, 0) for k, v in before.items() if v > after.get(k, 0)}
+        rep["verified_removed"] = {"invisible_chars": gone, "count": sum(gone.values())}
+        if after:
+            rep["kept"] = after
         rep["removed_count"] = removed
     else:
         if metadata:
