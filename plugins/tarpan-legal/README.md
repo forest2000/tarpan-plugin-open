@@ -20,7 +20,7 @@ Instaluje se jedním příkazem; základ se doinstaluje sám:
 | `tarpan-eurlex` | `eu_*` — unijní právo: nařízení a směrnice, konsolidovaná znění, platnost, judikatura SDEU, transpozice do ČR (EUR-Lex a CELLAR) |
 
 `esbirka`, `komentar` a `tarpan-eurlex` běží jako Cloudflare Workers. Zdrojáky, testy
-a postup nasazení jsou v `workers/tarpan-esbirka/` a `workers/tarpan-eurlex/`. Veřejné API eSeL vyžaduje
+a postup nasazení jsou ve vývojovém repozitáři `forest2000/tarpan` (`workers/tarpan-esbirka/`, `workers/tarpan-eurlex/`). Veřejné API eSeL vyžaduje
 registraci klienta u MV ČR; TARPAN Legal ji má a autorizační klíč drží worker
 jako secret — uživatel v Claude nic nezadává. `Salvia` je konektor organizace.
 
