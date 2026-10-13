@@ -36,8 +36,10 @@ Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
 
 ## Změny
 
-**tarpan 3.0.0 · tarpan-legal 1.7.4 · tarpan-partners 1.0.1**
+**tarpan 3.0.1 · tarpan-legal 1.7.4 · tarpan-partners 1.0.1**
 
+- `remove-ai-marks` v hlášení uvádí jen znaky, které opravdu odstranil;
+  co v textu zůstalo (např. pevné mezery bez `--spaces`), vypíše zvlášť.
 - Skilly `cistopis` a `humanizer` jsou sloučené do nového skillu **`rukopis`**.
   Přepisuje text od Clauda tak, aby nezněl jako od AI a zněl jako od tebe —
   podle stylového profilu, který si skill s tvým souhlasem vytvoří ze vzorků
