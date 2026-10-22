@@ -16,7 +16,7 @@ Instaluje se jedním příkazem; základ se doinstaluje sám:
 |---|---|
 | `esbirka` | veřejné API systému eSeL — **e-Sbírka** (znění předpisů včetně znění ke dni, konsolidace, historie, novelizace a derogace, nálezy ÚS, souvislosti, upozornění a konsolidační konflikty, CzechVoc) a **e-Legislativa** (legislativní proces, návrhy, vrstvy, připomínková řízení, pozměňovací návrhy) |
 | `Salvia` | judikatura obecných soudů, NS, NSS, ÚS a insolvenčního rejstříku, znění českých předpisů |
-| `komentar` | komentářová literatura k deseti předpisům — OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER; umí i porovnat výklad téhož § ve více publikacích |
+| `komentar` | komentářová literatura ke čtrnácti předpisům — OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER, ZPKT, ZoA, AdvT a etický kodex ČAK; umí i porovnat výklad téhož § ve více publikacích |
 | `tarpan-eurlex` | `eu_*` — unijní právo: nařízení a směrnice, konsolidovaná znění, platnost, judikatura SDEU, transpozice do ČR (EUR-Lex a CELLAR) |
 
 `esbirka`, `komentar` a `tarpan-eurlex` běží jako Cloudflare Workers. Zdrojáky, testy

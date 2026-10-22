@@ -1,11 +1,11 @@
 ---
 name: tarpan
-description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků (ARES, katastr, Sagasu, Merk), spočítat úrok z prodlení, odměnu advokáta nebo soudní poplatek, vyhotovit výpis z ARES či katastru do Wordu, zkontrolovat a doplnit údaje o straně ve smlouvě nebo prověřit protistranu. Triggery: „ARES“, „IČO“, „jednatel“, „způsob jednání“, „katastr“, „LV“, „list vlastnictví“, „insolvence“, „výpis“, „úrok z prodlení“, „Merk“, „finanční ukazatele“, „vlastnická struktura“, „prověřit protistranu“, „due diligence“. Úplný výčet spouštěčů je v těle skillu. Judikaturu a znění předpisů tenhle skill nedává (jsou v TARPAN Legal), stylistický přepis textu také ne (na to je rukopis).
+description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků (ARES, katastr, Sagasu, Merk), zjistit, které firmy navštívily web kanceláře (Leady), spočítat úrok z prodlení, odměnu advokáta nebo soudní poplatek, vyhotovit výpis z ARES či katastru do Wordu, zkontrolovat a doplnit údaje o straně ve smlouvě nebo prověřit protistranu. Triggery: „ARES“, „IČO“, „jednatel“, „způsob jednání“, „katastr“, „LV“, „list vlastnictví“, „insolvence“, „výpis“, „úrok z prodlení“, „Merk“, „Leady“, „návštěvy webu“, „finanční ukazatele“, „vlastnická struktura“, „prověřit protistranu“, „due diligence“, „najdi na webu“, „LinkedIn“, „zprávy o firmě“. Úplný výčet spouštěčů je v těle skillu. Judikaturu a znění předpisů tenhle skill nedává (jsou v TARPAN Legal), stylistický přepis textu také ne (na to je rukopis).
 ---
 
 # TARPAN — veřejné rejstříky, katastr a výpočty
 
-Čtyři sady nástrojů. Nepoužívej je odděleně — většina reálných dotazů se dotýká
+Šest sad nástrojů. Nepoužívej je odděleně — většina reálných dotazů se dotýká
 dvou i tří najednou.
 
 | Nástroje | K čemu |
@@ -13,7 +13,9 @@ dvou i tří najednou.
 | `ares_*` | české ekonomické subjekty, obchodní a živnostenský rejstřík, RES, historie zápisů, **výpis do Wordu** |
 | `kn_*` | katastr nemovitostí ČR — parcely, stavby, jednotky, právo stavby, řízení, **výpis do Wordu** |
 | Sagasu | to, co ARES neumí: insolvence, DPH a účty, datové schránky, zaniklé subjekty, osoba → firmy, SK rejstříky, advokáti, plné texty listin, **výpočty** |
-| `merk_*` | ekonomika a vazby: obrat a zisk, finanční ukazatele, účetní výkazy, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny — CZ i SK |
+| Merk (`company_*`, `relations_*`) | ekonomika a vazby: obrat a zisk, finanční ukazatele, účetní výkazy, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny — CZ i SK |
+| Leady | které firmy navštívily web kanceláře, co si prohlížely a jak dlouho — jen firmy, ne osoby (`references/leady.md`) |
+| `web_search`, `web_fetch` | veřejný web: zprávy a web firmy, veřejný profil osoby (i LinkedIn) — jen doplněk rejstříků; v dotazu nikdy klient ani věc (`references/web.md`) |
 
 Judikaturu a znění předpisů tenhle balíček neobsahuje — jsou v balíčku **TARPAN
 Legal** (konektory Salvia a e-Sbírka). Nemáš-li je k dispozici, na dotaz po
@@ -38,6 +40,9 @@ tato slova:
   výsledovka, obrat, hospodářský výsledek, zadluženost, likvidita, bonita,
   vlastnická struktura, vazby firem, propojené osoby, veřejné zakázky,
   provozovny
+- **návštěvy webu (Leady):** které firmy byly na našem webu, které firmy se
+  o kancelář zajímaly, návštěvy webu
+- **web (Parallel Search):** najdi na webu, LinkedIn, profil osoby, zprávy o firmě
 
 ## Železná pravidla
 
@@ -51,13 +56,14 @@ tato slova:
 4. **Rizika hlas jako první.** Insolvence, likvidace, nespolehlivý plátce DPH,
    plomba na nemovitosti — tohle patří na začátek odpovědi, ne na konec.
 5. **Rozlišuj „rejstřík uvádí" a „lze dovodit".** Co v datech není, není.
-6. **Merk není rejstřík.** Ekonomiku a vazby ber z `merk_*`, ale kdo je zapsaný
+6. **Merk není rejstřík.** Ekonomiku a vazby ber z Merku, ale kdo je zapsaný
    jako statutární orgán, jak jedná a co bylo zapsáno kdy, čti **jen z ARES** —
    jedině ten má historii zápisů. Company index je bonitní skóre Merku, tedy
    model, ne zjištěný fakt; insolvenci z Merku vždy ověř v ISIR přes Sagasu.
-7. **Placená volání hlídej.** Část nástrojů `merk_*` ubírá z měsíčního limitu
-   předplatného — konektor to u každé takové odpovědi hlásí. Než pustíš dávku
-   dotazů nebo prověrku většího seznamu, zavolej `merk_limity`.
+7. **Merk a Leady chtějí účet Saleskit.** Konektory se přihlašují přes OAuth;
+   nejsou-li připojené, řekni to a nedomýšlej. Část nástrojů Merku ubírá
+   z měsíčního limitu předplatného (seznam v `references/merk.md`).
+8. **Web jen doplněk; do žádného parametru (ani `objective`) nikdy klient ani věc.**
 
 ## Kam se kterým dotazem
 
@@ -98,15 +104,14 @@ zápisů** a rejstříkové údaje z něj proto neber. Zato umí to, co ani ARES
 
 | Co potřebuješ | Čím |
 |---|---|
-| obrat, zisk, EBITDA, velikostní kategorie a jejich trend | `merk_firma` |
-| finanční ukazatele — likvidita, zadluženost, ROA, ROE, marže, Z-skóre, index bonity | `merk_ukazatele` |
-| rozvaha a výsledovka po letech, po řádcích | `merk_vykazy` |
-| **kdo v firmě má podíl a jaký, kdo je ve funkci a od kdy** | `merk_vazby` |
-| **jak spolu dvě firmy nebo osoby souvisejí** | `merk_osoba` → `merk_cesta` |
-| veřejné zakázky subjektu | `merk_zakazky` |
-| provozovny, živnosti, vozový park, inzeráty, odpady | `merk_provozovny`, `merk_licence`, `merk_vozidla`, `merk_inzeraty`, `merk_odpady` |
-| vyhledání firem podle oboru, okresu, obratu nebo zisku | `merk_ciselnik` → `merk_hledat` |
-| kolik placených volání zbývá | `merk_limity` |
+| obrat, zisk, EBITDA, velikostní kategorie a jejich trend | `company_get_details` |
+| finanční ukazatele — likvidita, zadluženost, rentabilita, index bonity | `company_get_financial_indicators_cz` / `_sk` |
+| rozvaha a výsledovka po letech, po řádcích | `company_get_financial_statements_cz` / `_sk` |
+| **kdo v firmě má podíl a jaký, kdo je ve funkci a od kdy** | `relations_get_company` |
+| **jak spolu dvě firmy nebo osoby souvisejí** | `relations_search_person` → `relations_get_shortest_path` |
+| veřejné zakázky subjektu | `company_get_gov_contracts` |
+| provozovny, živnosti, vozový park, inzeráty, odpady | `company_get_business_premises`, `_licenses`, `_fleet`, `_job_ads`, `_waste_*` |
+| vyhledání firem podle oboru, okresu, obratu nebo zisku | `enums_enums_get_values` → `search_search_cz` |
 
 **Původní účetní závěrku má Sagasu** (`sbirka_listin` → `listina_text`), Merk z ní
 dopočítává ukazatele. Potřebuješ-li citovat listinu, cituj listinu ze sbírky; Merk je
@@ -149,11 +154,11 @@ jen na část — a co jsi neověřil, napiš, že jsi neověřil.
 4. `dph_status` (IČO nebo DIČ) → plátce DPH, nespolehlivost, zveřejněné účty —
    platí-li se na účet mimo zveřejněné, hrozí ručení za nezaplacenou DPH
 5. `datova_schranka_vyhledat` → ID schránky pro doručování
-6. `merk_firma` → ekonomický obraz: obrat a jeho trend, zisk, velikost, bonitní
-   index. `merk_ukazatele` doplní likviditu a zadluženost, jde-li o plnění, které
+6. `company_get_details` (Merk) → ekonomický obraz: obrat a jeho trend, zisk,
+   velikost, bonitní index (CZ v tis. Kč; SK `country_code="sk"`, celé EUR). `company_get_financial_indicators_cz` doplní likviditu a zadluženost, jde-li o plnění, které
    se bude teprve poskytovat
-7. `merk_vazby` → kdo firmu ovládá a přes koho je propojená; u sporu nebo střetu
-   zájmů `merk_osoba` → `merk_cesta` mezi stranami
+7. `relations_get_company` → kdo firmu ovládá a přes koho je propojená; u sporu
+   nebo střetu zájmů `relations_get_shortest_path` mezi stranami
 8. jde-li o nemovitostní transakci: `kn_*` → LV, plomby, způsoby ochrany, právo
    stavby, vazba stavby k pozemku
 9. je-li spor nebo sporná otázka a máš balíček Legal: Salvia → judikatura k tomu
@@ -281,7 +286,7 @@ katastrálního zákona. Řekni to uživateli, pokud by z něj chtěl vycházet 
 
 Katastrální API má **500 volání za den**. Číselníky nevolej opakovaně, ISKN ID
 si drž a používej pro navazující dotazy. Zbývající limit: `kn_sluzba` s
-`co: "stav_uctu"`. Ostatní konektory takový limit nemají.
+`co: "stav_uctu"`. Limity mají i Merk a bezplatný Parallel Search.
 
 ## Jak psát odpovědi
 
@@ -291,5 +296,5 @@ IČO, sídlo, spisovou značku a jednající osobu s funkcí a způsobem jednán
 U nemovitostí parcelní číslo nebo č. p., katastrální území, obec a číslo LV —
 tak, jak se nemovitost označuje ve smlouvě.
 
-Podrobnosti k jednotlivým sadám: `references/ares.md`, `references/katastr.md`,
-`references/sagasu.md`, `references/merk.md`; sbírka listin: `references/listiny.md`.
+Podrobnosti: `references/` — `ares`, `katastr`, `sagasu`, `merk`, `leady`, `web`
+a `listiny` (sbírka listin), vždy `.md`.

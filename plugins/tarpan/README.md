@@ -12,17 +12,24 @@ instalovat zvlášť.
 | `tarpan-ares` | ARES (Ministerstvo financí ČR) — obchodní a živnostenský rejstřík, RES, RÚIAN, historie zápisů, výpis do Wordu |
 | `tarpan-katastr` | REST API dálkového přístupu k datům KN (ČÚZK) — parcely, stavby, jednotky, právo stavby, řízení, výpis do Wordu |
 | `Sagasu` | insolvenční rejstřík, nespolehliví plátci DPH a zveřejněné účty, datové schránky, zaniklé subjekty, osoba → firmy, slovenské rejstříky, ČAK a SAK, plné texty listin, výpočty úroku z prodlení, odměny advokáta a soudního poplatku |
-| `tarpan-merk` | Merk (api.merk.cz) — ekonomika firem v ČR a SR: obrat a zisk, 42 finančních ukazatelů, účetní výkazy po řádcích, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny, živnosti, vozový park |
+| `merk` | oficiální MCP Merk (Saleskit) — ekonomika firem v ČR a SR: obrat a zisk, finanční ukazatele, účetní výkazy, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny, živnosti, vozový park |
+| `leady` | oficiální MCP Leady (Saleskit) — které firmy navštívily web kanceláře, co si prohlížely a jak dlouho |
+| `parallel-search` | Parallel Search — vyhledávání na veřejném webu a stažení stránek či PDF (bez přihlášení, s limitem dotazů); jen doplněk rejstříků |
 
-`tarpan-ares`, `tarpan-katastr` a `tarpan-merk` běží jako Cloudflare Workers
-a přístupové údaje si drží samy. `Sagasu` je konektor organizace.
+`tarpan-ares` a `tarpan-katastr` běží jako Cloudflare Workers a přístupové údaje
+si drží samy. `Sagasu` je konektor organizace. **`merk` a `leady` provozuje
+Saleskit:** každý uživatel je v Claude připojí tlačítkem Connect a přihlásí se
+svým účtem Saleskit (API klíč zadává tam, ne do pluginu). Leady vrací data, jen
+pokud je na webu kanceláře vložený jeho měřicí kód. **`parallel-search` provozuje
+Parallel (USA)** bez přihlášení, s nižším limitem dotazů; dotazy odcházejí k němu,
+proto se do nich nedávají údaje o klientovi.
 
 Judikatura a znění předpisů tu **nejsou** — patří do balíčku TARPAN Legal
 (konektory `Salvia` a `esbirka`).
 
 ## Skill `tarpan`
 
-Metodika, která ty čtyři sady drží pohromadě: kam se kterým dotazem, jak
+Metodika, která ty sady drží pohromadě: kam se kterým dotazem, jak
 identifikovat subjekt a nemovitost, jak je propojit přes kód adresního místa
 RÚIAN, jak vypadá prověrka protistrany krok za krokem, co která databáze
 neposkytuje a jak psát výsledek, aby byl ověřitelný.
@@ -55,13 +62,13 @@ je bonitní skóre Merku, tedy model, ne zjištěný fakt, a insolvence z Merku 
 přebraná — závazný je ISIR přes Sagasu.
 
 **Část volání Merku je placená** a ubírá z měsíčního limitu předplatného
-(našeptávač, účetní výkazy, veřejné zakázky, provozovny, živnosti, kontaktní
-osoby, vozový park, odpady). Konektor to u každé takové odpovědi hlásí a nástroj
-`merk_limity` ukáže zůstatek. Finanční ukazatele a graf vazeb placené nejsou.
+(našeptávač, účetní výkazy, veřejné zakázky, provozovny, živnosti, zaměstnanci,
+vozový park, odpady). Finanční ukazatele, profil firmy a graf vazeb placené
+nejsou. **Částky u českých firem chodí v tisících Kč.**
 
 API KN má limit **500 volání za den** (`kn_sluzba` s `co: "stav_uctu"` vrátí
-zbytek) a vyhledávání polygonem je omezené na 5 000 m². Ostatní konektory
-takový limit nemají.
+zbytek) a vyhledávání polygonem je omezené na 5 000 m². Limity mají i Merk
+a bezplatný Parallel Search.
 
 `dph_status` se ptá podle DIČ; u fyzických osob je DIČ CZ + rodné číslo, takže
 se nesmí skládat ručně jako CZ + IČO. Skill to hlídá.

@@ -18,7 +18,7 @@ Cíl: pokrýt téma tak, abys **nepřehlédl** klíčový předpis, ustanovení 
 
 - `get_commentary(law, section)` k relevantním §§. Komentář je rozcestník: dává výklad, podmínky aplikace, sporné otázky a **odkazy na judikaturu** — ty dereferencuj.
 - `compare_commentary(law, section)` u sporných otázek — rozdíl mezi publikacemi je zjištění, ne šum.
-- Komentáře jsou jen k deseti předpisům (OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER). Jinde se ptej rovnou judikatury a důvodové zprávy.
+- Komentáře jsou jen ke čtrnácti předpisům (OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER, ZPKT, ZoA, AdvT, EK). Jinde se ptej rovnou judikatury a důvodové zprávy.
 
 ## Judikatura (Salvia)
 

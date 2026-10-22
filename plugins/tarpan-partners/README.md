@@ -9,11 +9,11 @@ skilly přibudou.
 ```
 
 Základ (`tarpan`) se doinstaluje sám jako závislost, takže po instalaci máte
-konektory `tarpan-ares`, `tarpan-katastr`, `Sagasu` a `tarpan-merk` a skilly:
+konektory `tarpan-ares`, `tarpan-katastr`, `Sagasu`, `merk`, `leady` a `parallel-search` a skilly:
 
 | Skill | K čemu |
 |---|---|
-| `tarpan` | rejstříky, katastr, Merk, výpočty, výpisy do Wordu, prověrka protistrany |
+| `tarpan` | rejstříky, katastr, Merk, Leady, web, výpočty, výpisy do Wordu, prověrka protistrany |
 | `rukopis` | přepis textu od Clauda do stylu uživatele, bez stop po AI |
 | `remove-ai-marks` | odstranění neviditelných znaků a metadat ze souboru před odesláním |
 

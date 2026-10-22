@@ -41,8 +41,8 @@ Používej je aktivně, ne jako poslední možnost.
 - `get_commentary(law, section)` — **primární nástroj.** Když znáš číslo paragrafu, volej rovnou tohle. Vrací komentář ze všech dostupných publikací a u každé `last_updated`. Nahoře vrací `platnost` (zda § v platném znění pořád existuje, `overeno_dnes`) a u každého komentáře `pouzitelnost` — porovnání znění § z podkladu komentáře proti **dnešnímu účinnému znění**.
 - `compare_commentary(law, section)` — porovná výklad téhož § ve více publikacích. **U sporné otázky vždy** — rozdíl mezi publikacemi je sám o sobě zjištění.
 - `search_commentary(query, law)` — jen jako poslední možnost pro neobvyklé pojmy, když číslo § nelze odvodit z kontextu.
-- **Komentáře jsou jen k deseti předpisům**: OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER. Jinde komentář nemáš — napiš to a opři výklad o judikaturu a důvodovou zprávu; nenahrazuj ho výkladem z paměti.
-- **`pouzitelnost` čti a piš do výstupu.** Vrací `shoda_pct` a `stav`: `odpovídá platnému znění` / `drobné odchylky — zkontrolovat` / `POUŽITELNÝ JEN ZČÁSTI — znění se změnilo` / `NEODPOVÍDÁ platnému znění — výrazná změna` / `USTANOVENÍ V PLATNÉM ZNĚNÍ NEEXISTUJE`. Cokoli pod „odpovídá" znamená, že komentář vykládá **jiné znění, než platí dnes** — nesmíš ho odcitovat jako platné právo, aniž na ten rozdíl upozorníš. Je-li `stav_ustanoveni: neověřeno` (e-Sbírka nedostupná nebo chybí číslo předpisu), aktuálnost ověř sám přes `esbirka_historie`.
+- **Komentáře jsou jen ke čtrnácti předpisům**: OZ, ZOK, ZPr, OSŘ, TrZ, TrŘ, InsZ, ZMPS, VerRej, ER, ZPKT, zákon o advokacii (ZoA), advokátní tarif (AdvT) a etický kodex ČAK (EK, `section` = číslo článku, např. „čl. 9a“). Jinde komentář nemáš — napiš to a opři výklad o judikaturu a důvodovou zprávu; nenahrazuj ho výkladem z paměti. U EK konektor platné znění neověřuje (není v e-Sbírce): napiš uživateli, že text článku pochází z komentáře a jeho aktuálnost není ověřená.
+- **`pouzitelnost` čti a piš do výstupu.** Vrací `shoda_pct` a `stav`: `odpovídá platnému znění` / `drobné odchylky — zkontrolovat` / `POUŽITELNÝ JEN ZČÁSTI — znění se změnilo` / `NEODPOVÍDÁ platnému znění — výrazná změna` / `USTANOVENÍ V PLATNÉM ZNĚNÍ NEEXISTUJE`. Cokoli pod „odpovídá" znamená, že komentář vykládá **jiné znění, než platí dnes** — nesmíš ho odcitovat jako platné právo, aniž na ten rozdíl upozorníš. Je-li `stav_ustanoveni: neověřeno` (e-Sbírka nedostupná nebo chybí číslo předpisu), aktuálnost ověř sám přes `esbirka_historie` — kromě EK, který v e-Sbírce není: tam jen uveď, že aktuálnost znění článku není ověřená.
 
 **EUR-Lex / CELLAR** (`tarpan-eurlex`) — **unijní právo:** nařízení a směrnice, konsolidovaná znění, platnost, judikatura SDEU, transpozice do ČR.
 - `eu_identifikace` — **volej vždy jako první.** Citace („nařízení (EU) 2016/679", „GDPR", „C-311/18") → ověřený CELEX, ELI a ECLI. Jako jediný ověřuje existenci aktu dotazem.
@@ -57,9 +57,11 @@ Používej je aktivně, ne jako poslední možnost.
 - `ares_vyhledat` (název → IČO, ověř), pak `ares_detail_vse` — sídlo, spisová značka, statutární orgán, způsob jednání.
 - Použij vždy, když je v zadání společnost — pro správné označení strany (viz house-style) i pro ověření, **kdo za ni smí jednat**.
 
-**Merk** (`tarpan-merk` — ze základního balíčku) — **ekonomika a vazby subjektu.** Není to rejstřík; sídlo, statutární orgán a historii zápisů ber dál z ARES.
-- `merk_vazby` — kdo má ve firmě podíl a jaký, kdo je ve funkci a od kdy. `merk_osoba` → `merk_cesta` ukáže, zda a přes koho spolu dvě osoby nebo firmy souvisejí.
-- `merk_firma`, `merk_ukazatele` — obrat, zisk, likvidita, zadluženost, bonitní index. Částky chodí v tisících Kč; ber je z pole `v_kc`.
+**Web (Parallel Search, `web_search`/`web_fetch`)** — jen doplněk o faktech (zprávy, web protistrany). **Znění předpisů a judikaturu z webu nikdy neber** — jen z e-Sbírky, Salvie a EUR-Lexu. Do žádného parametru dotazu (ani `objective`) nedávej klienta ani podrobnosti věci.
+
+**Merk** (konektor `merk` ze základního balíčku, přihlášení účtem Saleskit) — **ekonomika a vazby subjektu.** Není to rejstřík; sídlo, statutární orgán a historii zápisů ber dál z ARES.
+- `relations_get_company` — kdo má ve firmě podíl a jaký, kdo je ve funkci a od kdy. `relations_search_person` → `relations_get_shortest_path` ukáže, zda a přes koho spolu dvě osoby nebo firmy souvisejí.
+- `company_get_details`, `company_get_financial_indicators_cz` (SK: `_sk`) — obrat, zisk, likvidita, zadluženost, bonitní index. Částky u českých firem chodí v tisících Kč (přepočti na koruny), u slovenských v celých EUR.
 - Kdy to v analýze potřebuješ: **ovládající osoba** a jednání ve shodě (§ 74 a 78 ZOK), **osoba blízká** (§ 22 OZ), střet zájmů, propojenost stran u odporovatelnosti a u insolvenčních incidenčních sporů, dobytnost pohledávky před podáním žaloby.
 - Vazba sama o sobě ovládání ani jednání ve shodě **neprokazuje** — je to skutkový podklad, právní kvalifikaci musíš odůvodnit. Podrobnosti a meze popisuje reference `merk.md` u skillu `tarpan` ze základního balíčku.
 
@@ -74,8 +76,8 @@ Když komentář nebo rozhodnutí odkazuje na další judikát, dereferencuj ho 
 | judikatura SDEU a Tribunálu | `eu_judikatura`, `eu_vec` |
 | který český zákon provádí směrnici | `eu_transpozice`, pak Salvia na jeho text |
 | fulltext v předpisech EU | `eu_vyhledat` |
-| kdo koho ovládá, vlastnická struktura, propojenost stran | `merk_vazby`, `merk_cesta` |
-| hospodářská situace subjektu, dobytnost pohledávky | `merk_firma`, `merk_ukazatele` |
+| kdo koho ovládá, vlastnická struktura, propojenost stran | `relations_get_company`, `relations_get_shortest_path` |
+| hospodářská situace subjektu, dobytnost pohledávky | `company_get_details`, `company_get_financial_indicators_cz` |
 
 Salvia unijní právo nemá, EUR-Lex české soudy nemá. Nepřebíjejí se — u otázky, která má unijní i českou vrstvu (veřejné zakázky, GDPR, kyberbezpečnost), se volají **oba** a v odpovědi se rozliší, co je unijní a co české.
 

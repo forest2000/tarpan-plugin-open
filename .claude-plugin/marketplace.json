@@ -11,8 +11,8 @@
       "name": "tarpan",
       "displayName": "TARPAN — základ",
       "source": "./plugins/tarpan",
-      "version": "3.0.1",
-      "description": "Základ, který je součástí obou balíčků: veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) a Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), včetně výpisů do Wordu v úpravě TARPAN. Instaluje se sám jako závislost balíčků Legal a Partners.",
+      "version": "4.1.0",
+      "description": "Základ, který je součástí obou balíčků: veřejné rejstříky, katastr nemovitostí ČR a ekonomika firem — ARES, katastr, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty) Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), Leady (firmy na webu kanceláře) a vyhledávání na webu (Parallel Search), včetně výpisů do Wordu v úpravě TARPAN. Instaluje se sám jako závislost balíčků Legal a Partners.",
       "author": {
         "name": "TARPAN"
       },
@@ -34,6 +34,8 @@
         "due diligence",
         "cuzk",
         "merk",
+        "leady",
+        "web",
         "finanční ukazatele",
         "účetní výkazy",
         "vlastnická struktura",
@@ -46,7 +48,7 @@
       "name": "tarpan-legal",
       "displayName": "TARPAN Legal",
       "source": "./plugins/tarpan-legal",
-      "version": "1.7.4",
+      "version": "1.8.1",
       "description": "Pro advokáty: judikatura (Salvia), e-Sbírka a e-Legislativa (konsolidovaná znění, účinnost k datu, novelizace a derogace, nálezy ÚS, legislativní proces), komentářová literatura a unijní právo (EUR-Lex a CELLAR — nařízení a směrnice, konsolidace, judikatura SDEU, transpozice do ČR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání a GDPR. Zahrnuje balíček TARPAN — základ.",
       "author": {
         "name": "TARPAN"
@@ -89,7 +91,7 @@
       "name": "tarpan-partners",
       "displayName": "TARPAN Partners",
       "source": "./plugins/tarpan-partners",
-      "version": "1.0.1",
+      "version": "1.0.3",
       "description": "Balíček pro kancelář — zatím obsahuje základ TARPAN (rejstříky, katastr, Merk, výpisy do Wordu); kancelářské skilly přibudou.",
       "author": {
         "name": "TARPAN"

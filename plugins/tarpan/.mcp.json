@@ -12,9 +12,17 @@
       "type": "http",
       "url": "https://sagasu.slv.cz"
     },
-    "tarpan-merk": {
+    "merk": {
       "type": "http",
-      "url": "https://tarpan-merk.jan-forejtar.workers.dev/mcp"
+      "url": "https://mcp.saleskit.com/merk/"
+    },
+    "leady": {
+      "type": "http",
+      "url": "https://mcp.saleskit.com/leady/"
+    },
+    "parallel-search": {
+      "type": "http",
+      "url": "https://search.parallel.ai/mcp"
     }
   }
 }

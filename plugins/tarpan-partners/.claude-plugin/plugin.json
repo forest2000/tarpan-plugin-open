@@ -1,6 +1,6 @@
 {
   "name": "tarpan-partners",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Balíček pro kancelář — zatím obsahuje základ TARPAN (rejstříky, katastr, Merk, výpisy do Wordu); kancelářské skilly přibudou.",
   "author": {
     "name": "TARPAN"

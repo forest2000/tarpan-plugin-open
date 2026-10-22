@@ -1,8 +1,17 @@
 # Merk — ekonomika a vazby, a čím se liší od rejstříků
 
-Referenční list ke konektoru `tarpan-merk` (Merk API, `api.merk.cz`). Merk je komerční
-databáze firem pro Česko a Slovensko. V TARPANu je zdrojem **ekonomiky a vazeb**, ne
-zdrojem rejstříkových údajů.
+Referenční list ke konektoru `merk` — oficiální MCP server Saleskitu
+(`https://mcp.saleskit.com/merk/`, s lomítkem na konci). Merk je komerční databáze firem pro Česko
+a Slovensko. V TARPANu je zdrojem **ekonomiky a vazeb**, ne zdrojem rejstříkových
+údajů.
+
+**Přihlášení:** konektor používá OAuth. Uživatel ho v Claude připojí tlačítkem
+Connect a přihlásí se svým účtem Saleskit. Není-li připojený (nástroje chybí nebo
+vrací chybu přihlášení), napiš to uživateli a ekonomiku nedomýšlej.
+
+**Na začátku konverzace zavolej `read_merk_guide_first`** — vrací aktuální návod
+provozovatele (identifikátory, jednotky, limity). Před prvním vyhledáváním ještě
+`read_merk_guide_first(topic="search-filters")`.
 
 ## Co Merk je a co není
 
@@ -12,136 +21,97 @@ zdrojem rejstříkových údajů.
 | Kdy byl kdo zapsán a vymazán, jaké bylo dřívější sídlo? | **ARES** — historii zápisů má jen on |
 | Probíhá insolvence? | **Sagasu** (`insolvence_vyhledat`), ISIR je závazný |
 | Znění stanov, notářský zápis, originál závěrky | **Sagasu** (`sbirka_listin` → `listina_text`) |
-| Jak si firma stojí hospodářsky? | **Merk** (`merk_firma`, `merk_ukazatele`, `merk_vykazy`) |
-| Kdo firmu ovládá a přes koho je propojená? | **Merk** (`merk_vazby`, `merk_cesta`) |
+| Jak si firma stojí hospodářsky? | **Merk** (`company_get_details`, `company_get_financial_indicators_cz`, `company_get_financial_statements_cz`) |
+| Kdo firmu ovládá a přes koho je propojená? | **Merk** (`relations_get_company`, `relations_get_shortest_path`) |
 
-Merk vrací i sídlo, právní formu a stav — ale **bez historie**. Pro otázku „směla ta
-osoba k datu podpisu jednat?" je to nepoužitelné. Odpověď `merk_firma` na to sama
-upozorňuje; tu výhradu ve výstupu neškrtej.
+Merk vrací i sídlo, právní formu, stav a statutární orgán (`body.persons`) — ale
+**bez historie zápisů**. Pro otázku „směla ta osoba k datu podpisu jednat?" je to
+nepoužitelné; ber to z ARES.
 
-## Placená volání
+## Identifikátory
 
-Merk má vedle limitu volání za minutu i **měsíční limity předplatného**. Následující
-nástroje z nich ubírají při každé úspěšné odpovědi:
+- `regno` = IČO (s nulami i bez). Uživateli ukazuj `regno_str` („01572377").
+- `company_id` = `"cz-<IČO>"` nebo `"sk-<IČO>"` pro nástroje `relations_*`.
+- `person_id` vrací `relations_search_person` nebo uzel grafu.
+- Slovenské firmy potřebují `country_code="sk"` nebo variantu `_sk`.
 
-`merk_naseptavac` · `merk_vykazy` · `merk_zakazky` · `merk_provozovny` ·
-`merk_licence` · `merk_zamestnanci` · `merk_vozidla` · `merk_odpady`
+## Nástroje podle úlohy
 
-Ostatní nástroje jsou v rámci předplatného zdarma. Před prověrkou většího seznamu
-nebo dávkou dotazů zavolej **`merk_limity`** — vypíše limit, čerpání a zůstatek
-u každé položky, a taky jestli máte vůbec zapnuté vazby a události.
+| Úloha | Nástroj |
+|---|---|
+| firma podle názvu, e-mailu nebo účtu → IČO | `suggest_suggest_get_companies` (placené) |
+| profil firmy: obrat a velikost (pásma), zisk, EBITDA, company index, DPH, účty, statutáři, kontakty | `company_get_details` |
+| profily více firem najednou (až 500 IČO) | `company_get_companies` |
+| finanční ukazatele po letech | `company_get_financial_indicators_cz` / `_sk` |
+| rozvaha a výsledovka po řádcích | `company_get_financial_statements_cz` / `_sk` (placené) |
+| vlastníci, statutáři, propojené firmy | `relations_get_company` |
+| vše, kde osoba je nebo byla | `relations_search_person` → `relations_get_person` |
+| jak spolu dvě firmy nebo osoby souvisejí | `relations_get_shortest_path` |
+| veřejné zakázky | `company_get_gov_contracts` (placené) |
+| provozovny, živnosti, zaměstnanci, vozidla, inzeráty, odpady | `company_get_business_premises`, `company_get_licenses`, `company_get_employees`, `company_get_fleet` / `_fleet_stats`, `company_get_job_ads`, `company_get_waste_facilities` / `_waste_trader` (většinou placené) |
+| události v rejstřících, nové a změněné firmy | `company_get_events`, `company_get_new_companies`, `company_get_updated_companies` |
+| vyhledání firem podle oboru, okresu, obratu | `enums_enums_get_values` → `search_search_cz` / `_sk` |
 
-Limity volání za minutu se liší podle endpointu (10 u výkazů, ukazatelů, událostí
-a číselníků; 600 u našeptávače a vyhledávání). Konektor si rozestup hlídá sám.
+## Placená volání a limity
+
+Část nástrojů ubírá z **měsíčního limitu předplatného**: `suggest_*`,
+`company_get_employees`, `_licenses`, `_fleet`, `_fleet_stats`, `_gov_contracts`,
+`_waste_*`, `_business_premises` a `_financial_statements_*`. Volej je jen tehdy,
+když je věc opravdu potřebuje. Profil firmy, ukazatele, vazby a vyhledávání placené
+nejsou. Nástroj na zůstatek limitu konektor nemá.
+
+Limity za minutu: 10 u ukazatelů, výkazů, událostí, nových firem, provozoven,
+inzerátů a číselníků; 30 u `relations_*`.
+Přiškrcené volání řekne, kolik sekund čekat — počkej, neopakuj hned. Hláška
+„Merk API denied access" (vypršelý účet, vyčerpaný limit) se opakováním nespraví;
+řekni uživateli důvod.
 
 ## Ekonomické údaje
 
-**Obrat a velikost jsou pásma, ne čísla.** `merk_firma` vrací `obrat_pasmo`
-(„100–500 mil. Kč") a `velikost_pasmo`, u obojího `trend`. U části subjektů jde
-o odhad — do výstupu to piš jako pásmo, ne jako přesnou částku.
+**Obrat a velikost jsou pásma, ne čísla** (`turnover`, `magnitude`, s `trend`).
+Do výstupu je piš jako pásmo.
 
-**Zisk, EBITDA a poslední závěrka** už jsou konkrétní čísla s rokem. Vždy uveď rok,
-ke kterému se vážou; „firma měla zisk 1,2 mil." bez roku je zavádějící.
+**Zisk, EBITDA (`ebidta`) a zůstatky účtů** jsou konkrétní čísla s rokem
+(`{amount, year}`). Vždy uveď rok.
 
-**Částky chodí v TISÍCÍCH Kč.** Konektor je přepočítává a vrací v poli `v_kc`, vedle
-zůstává zdrojová hodnota (`zdroj_tis_kc`, resp. `hodnota` u ukazatelů) na kontrolu.
-**Do podání piš korunovou částku z `v_kc`**, ne zdrojové číslo — jinak se spleteš
-o tři řády. Týká se to zisku, EBITDA i absolutních ukazatelů (tržby, EBIT, cizí
-zdroje, přidaná hodnota); poměry a indexy jednotku nemají.
+**Jednotky: CZ v TISÍCÍCH Kč, SK v celých EUR.** `2297883` u české firmy je
+2,3 mld. Kč. Konektor nepřepočítává — **do podání vždy přepočti na koruny sám**
+a ukaž, z čeho vycházíš. Totéž platí pro `company_get_financial_statements_cz`.
 
-**Company index** je vlastní bonitní skóre Merku. **Není** to rating podle zvláštního
-předpisu ani úvěrové hodnocení a nesmí se tak podávat. Uváděj ho jen s označením, že
-jde o skóre Merku, nebo ho neuváděj vůbec. Konektor k číslu dopočítává i písmenný
-stupeň podle tabulky z dokumentace API (A+++ ≥ 95 · A++ ≥ 92 · A+ ≥ 85 · A ≥ 75 ·
-B ≥ 60 · C ≥ 50 · D ≥ 45 · E ≥ 35 · FX < 35) — a ta výhrada platí i pro něj.
+**Company index** je vlastní bonitní skóre Merku (A+++ ≥ 95 … FX < 35). **Není**
+to rating ani úvěrové hodnocení; uváděj ho jen s označením, že jde o skóre Merku.
 
-## Finanční ukazatele a výkazy
+`is_unreliable_vatpayer` a `insolvency_cases` jsou jen signál — nespolehlivého
+plátce ověř v Sagasu (`dph_status`), insolvenci v ISIR (`insolvence_vyhledat`).
 
-`merk_ukazatele` vrací 42 ukazatelů po letech, česky pojmenovaných: likvidita 1–3,
-běžná a celková zadluženost, koeficient samofinancování, finanční páka, ROA, ROE, ROS,
-marže, EBIT, EBITDA, EVA, pracovní kapitál, obrátky pohledávek, zásob a závazků,
-Z-skóre, index bonity, Tafflerův index, rychlý test. **Hity nestojí** — je to první
-volba, když jde o hospodářský obraz.
-
-`merk_vykazy` vrací rozvahu a výsledovku po řádcích. Kódy polí (`p1201`, `p40012`…)
-překládá konektor na české názvy podle oficiálního schématu API; nulové řádky ve
-výchozím nastavení vynechává (`jen_nenulove`). Kód, který ve schématu není, skončí
-v poli `nezmapovano` — nezahazuje se mlčky. **Hity stojí.**
-
-Obojí je **dopočtené z účetní závěrky uložené ve sbírce listin**. Za správnost odpovídá
-účetní jednotka. Potřebuješ-li citovat, cituj listinu ze sbírky (Sagasu), ne Merk.
-A pamatuj, co ukazatele znamenají: vypovídají o účetním obrazu, ne o platební morálce
-ani o schopnosti splnit konkrétní závazek.
+Ukazatele i výkazy jsou **dopočtené z účetní závěrky ve sbírce listin**. Potřebuješ-li
+citovat, cituj listinu ze sbírky (Sagasu), ne Merk.
 
 ## Graf vazeb
 
-Tohle je věc, kterou v TARPANu neumí nikdo jiný.
+- `relations_get_company(company_id, relation_type)` — `relation_type="current"`
+  jen trvající vazby, `"any"` i historické. `hops` rozšíří graf přes prostředníky;
+  začni na 1 a zvyšuj opatrně, graf velké firmy na 2 kroky má tisíce prvků.
+- `relations_search_person(name, birth_date)` — **jmenovci jsou běžní.** Bez data
+  narození osobu neztotožňuj; jinak ji hledej přes firmu, u které má být ve funkci.
+- `relations_get_shortest_path` — propojenost stran, střet zájmů, osoby blízké
+  (§ 22 OZ).
 
-- `merk_vazby` kolem firmy (`ico`) nebo osoby (`person_id`) vrátí **uzly** (firmy
-  a osoby) a **hrany** (vazby) s podílem v procentech, vkladem, rolí, funkcí a daty
-  od–do.
-  - **`kroky` je ve výchozím stavu 1**, tedy jen přímé vazby. Na vlastnickou
-    strukturu přes prostředníky nastav 2 až 3.
-  - **`stav`** rozlišuje `aktualni` (trvající vazby), `historicke` (ukončené)
-    a `vse` (výchozí). Nerozlišuje vlastnictví od funkce.
-  - **`role_id`** filtruje podle role z číselníku `company_role`
-    (`merk_ciselnik` s `ktery: "company_role"`) — například 1 je člen statutárního
-    orgánu, 3 prokurista, 4 člen dozorčí rady. Tohle je ta osa „vlastník versus
-    funkcionář".
-  - `podil_od` odfiltruje drobné podíly.
-- `merk_osoba` najde osobu podle jména a případně data narození a vrátí `person_id`.
-  **Jmenovci jsou běžní** — příjmení Novák má v Merku přes čtrnáct tisíc záznamů.
-  Nástroj vypíše nejvýš dvacet a řekne, kolik jich je celkem; takový výběr ke
-  ztotožnění nestačí. Doplň datum narození, nebo osobu hledej přes firmu, u které
-  má být ve funkci.
-- `merk_cesta` najde nejkratší cestu mezi dvěma uzly. Na propojenost stran, střet
-  zájmů a osoby blízké podle § 22 občanského zákoníku.
+**Nenalezená cesta nic nedokazuje** — jen že v datech Merku do zadaného počtu kroků
+není. Nalezená vazba sama o sobě neprokazuje ovládání ani jednání ve shodě; to je
+právní kvalifikace, kterou musíš odůvodnit.
 
-Uzel firmy se zapisuje jako `cz-12345678`, uzel osoby jako `person_id` z `merk_osoba`.
-
-Vrátí-li se prázdný graf, nástroj napíše, co hledal — uzel, stav vazby a počet
-kroků. Bývá to tím, že `kroky` zůstaly na jedničce.
-
-**Pozor na velikost.** Graf velké firmy na dva kroky má klidně tisíce prvků (u ČEZu
-přes 3 MB dat). Odpověď se proto ořezává na 300 prvků a hlásí to. Oříznutý graf je
-nahodilý výběr — **nedá se z něj dovozovat, že něco chybí**. Než zvýšíš `kroky`,
-zúž dotaz přes `podil_od` nebo `role_id`.
-
-**Nenalezená cesta nic nedokazuje.** Znamená jen, že v datech Merku do zadaného počtu
-kroků není. Stejně tak nalezená vazba sama o sobě neprokazuje ovládání ani jednání ve
-shodě — to je právní kvalifikace, kterou musíš odůvodnit.
-
-**Graf obsahuje osobní údaje** — jména, data narození, obce. Zpracovávej je jen
-v rozsahu nutném pro věc a do výstupu klientovi dávej jen to, co je pro ni potřebné.
-Plošný výpis všech osob kolem firmy do memoranda tam nepatří.
-
-## Ostatní nástroje
-
-- `merk_zakazky` — veřejné zakázky s předmětem, cenou s DPH, zadavatelem a odkazem do
-  registru smluv. Rozhodné je znění zveřejněné v registru, na které vede odkaz.
-- `merk_zamestnanci` — kontaktní osoby z veřejných zdrojů, **nikoli statutární orgán**.
-- `merk_licence` — živnostenská oprávnění; historii adres a zaniklá oprávnění má
-  živnostenský rejstřík v Sagasu.
-- `merk_vozidla` — vozový park z registru silničních vozidel. Leasing ani zástavy
-  z toho neplynou.
-- `merk_udalosti`, `merk_zmeny`, `merk_nove_firmy` — sledování změn v čase. Období
-  `od` a `do` je povinné a **má krátký strop**: události nejvýš 15 dnů, nové firmy
-  3 dny, změny **1 den**. Delší období API odmítne; konektor to hlídá předem a řekne,
-  že se dotaz musí rozdělit. Kódy událostí vysvětlí `merk_ciselnik`.
-- `merk_hledat` — vyhledání firem podle oboru, okresu, PSČ, vzdálenosti, pásma obratu
-  a velikosti, zisku a trendu. **Nejdřív `merk_ciselnik`** — bez kódů se filtr nedá
-  postavit.
-- `merk_vokativ` — jméno v 5. pádě na oslovení v dopise. V podání se strana označuje
-  1. pádem.
+**Graf vazeb i kontakty z `company_get_details` (statutáři, telefony, e-maily)
+obsahují osobní údaje.** Zpracovávej je jen v rozsahu nutném pro věc; plošný
+výpis osob nebo kontaktů kolem firmy do výstupu nepatří.
 
 ## Prázdná odpověď
 
-Merk vrací HTTP 204, když k subjektu data nemá. Konektor z toho dělá čitelnou zprávu
-`nenalezeno`. Prázdná odpověď **neznamená, že subjekt neexistuje** ani že nic z toho
-není — jen že to Merk nevede. U firmy bez závěrky ve sbírce listin nebudou ukazatele
-ani výkazy, a je to normální stav.
+`null`, `{}` nebo `[]` znamená, že Merk data nemá — **ne že neexistují.** U firmy bez
+závěrky ve sbírce listin ukazatele ani výkazy nebudou; u slovenských firem často
+chybí finance. `vzp_debt` je jen pro SK; `null` u české firmy neznamená „bez dluhu".
 
-## Konektor je jen pro čtení
+## Oslovení
 
-Zápis do Merku (zakládání uživatelů, zpětná vazba k našeptávači) implementovaný není
-a nebude — měnit stav v Merku patří do aplikace, ne do modelu.
+`company_get_details` vrací `salutation` (firma v 5. pádě) a u statutárů hotové
+„Vážený pane …". Hodí se do dopisu; v podání se strana označuje 1. pádem.
