@@ -36,6 +36,11 @@ Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
 
 ## Změny
 
+**tarpan 4.1.1**
+
+- Návod k Leady podle skutečných nástrojů: jen návštěvy firem, návštěvy osob se
+  nepoužívají; štítky v Saleskitu Claude nemění (to zůstává v aplikaci).
+
 **tarpan 4.1.0 · tarpan-legal 1.8.1 · tarpan-partners 1.0.3**
 
 - Nový konektor **Parallel Search** (`parallel-search`): vyhledávání na veřejném
