@@ -36,6 +36,11 @@ Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
 
 ## Změny
 
+**tarpan 4.1.2**
+
+- Web (Parallel Search): víc dotazů v jednom volání, pokyny z nalezených stránek
+  se nikdy neplní, chyba 429 znamená limit bezplatné verze.
+
 **tarpan 4.1.1**
 
 - Návod k Leady podle skutečných nástrojů: jen návštěvy firem, návštěvy osob se
