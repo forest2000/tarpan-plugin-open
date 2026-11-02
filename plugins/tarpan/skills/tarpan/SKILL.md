@@ -1,11 +1,11 @@
 ---
 name: tarpan
-description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků (ARES, katastr, Sagasu, Merk), zjistit, které firmy navštívily web kanceláře (Leady), spočítat úrok z prodlení, odměnu advokáta nebo soudní poplatek, vyhotovit výpis z ARES či katastru do Wordu, zkontrolovat a doplnit údaje o straně ve smlouvě nebo prověřit protistranu. Triggery: „ARES“, „IČO“, „jednatel“, „způsob jednání“, „katastr“, „LV“, „list vlastnictví“, „insolvence“, „výpis“, „úrok z prodlení“, „Merk“, „Leady“, „návštěvy webu“, „finanční ukazatele“, „vlastnická struktura“, „prověřit protistranu“, „due diligence“, „najdi na webu“, „LinkedIn“, „zprávy o firmě“. Úplný výčet spouštěčů je v těle skillu. Judikaturu a znění předpisů tenhle skill nedává (jsou v TARPAN Legal), stylistický přepis textu také ne (na to je rukopis).
+description: Použij VŽDY, když je potřeba zjistit údaje o firmě, podnikateli, osobě nebo nemovitosti z veřejných rejstříků (ARES, katastr, Sagasu, Merk), zjistit, které firmy navštívily web kanceláře (Leady), dohledat mediální výstupy v monitoringu Newton Media, spočítat úrok z prodlení, odměnu advokáta nebo soudní poplatek, vyhotovit výpis z ARES či katastru do Wordu, zkontrolovat a doplnit údaje o straně ve smlouvě nebo prověřit protistranu. Triggery: „ARES“, „IČO“, „jednatel“, „způsob jednání“, „katastr“, „LV“, „list vlastnictví“, „insolvence“, „výpis“, „úrok z prodlení“, „Merk“, „Leady“, „návštěvy webu“, „Newton“, „monitoring médií“, „co píšou média“, „finanční ukazatele“, „vlastnická struktura“, „prověřit protistranu“, „due diligence“, „najdi na webu“, „LinkedIn“, „zprávy o firmě“. Úplný výčet spouštěčů je v těle skillu. Judikaturu a znění předpisů tenhle skill nedává (jsou v TARPAN Legal), stylistický přepis textu také ne (na to je rukopis).
 ---
 
 # TARPAN — veřejné rejstříky, katastr a výpočty
 
-Šest sad nástrojů. Nepoužívej je odděleně — většina reálných dotazů se dotýká
+Sedm sad nástrojů. Nepoužívej je odděleně — většina reálných dotazů se dotýká
 dvou i tří najednou.
 
 | Nástroje | K čemu |
@@ -15,6 +15,7 @@ dvou i tří najednou.
 | Sagasu | to, co ARES neumí: insolvence, DPH a účty, datové schránky, zaniklé subjekty, osoba → firmy, SK rejstříky, advokáti, plné texty listin, **výpočty** |
 | Merk (`company_*`, `relations_*`) | ekonomika a vazby: obrat a zisk, finanční ukazatele, účetní výkazy, **graf vlastnických a personálních vazeb**, veřejné zakázky, provozovny — CZ i SK |
 | Leady | které firmy navštívily web kanceláře, co si prohlížely a jak dlouho — jen firmy, ne osoby (`references/leady.md`) |
+| `newton_*` | mediální monitoring kanceláře v Newton Media: články, alerty a newsmaily, e-clipy a přepisy TV/rozhlasu; složky měň jen na výslovný pokyn; o fyzických osobách jen pro konkrétní věc, žádné plošné sledování (`references/newton.md`) |
 | `web_search`, `web_fetch` | veřejný web: zprávy a web firmy, veřejný profil osoby (i LinkedIn) — jen doplněk rejstříků; v dotazu nikdy klient ani věc (`references/web.md`) |
 
 Judikaturu a znění předpisů tenhle balíček neobsahuje — jsou v balíčku **TARPAN
@@ -40,8 +41,8 @@ tato slova:
   výsledovka, obrat, hospodářský výsledek, zadluženost, likvidita, bonita,
   vlastnická struktura, vazby firem, propojené osoby, veřejné zakázky,
   provozovny
-- **návštěvy webu (Leady):** které firmy byly na našem webu, které firmy se
-  o kancelář zajímaly, návštěvy webu
+- **návštěvy webu (Leady):** které firmy byly na našem webu nebo se o nás zajímaly
+- **média (Newton):** monitoring médií, co píšou média, alert, newsmail, výstřižek
 - **web (Parallel Search):** najdi na webu, LinkedIn, profil osoby, zprávy o firmě
 
 ## Železná pravidla
@@ -60,9 +61,9 @@ tato slova:
    jako statutární orgán, jak jedná a co bylo zapsáno kdy, čti **jen z ARES** —
    jedině ten má historii zápisů. Company index je bonitní skóre Merku, tedy
    model, ne zjištěný fakt; insolvenci z Merku vždy ověř v ISIR přes Sagasu.
-7. **Merk a Leady chtějí účet Saleskit.** Konektory se přihlašují přes OAuth;
-   nejsou-li připojené, řekni to a nedomýšlej. Část nástrojů Merku ubírá
-   z měsíčního limitu předplatného (seznam v `references/merk.md`).
+7. **Merk a Leady chtějí účet Saleskit, Newton účet Newton Media.** Konektory
+   se přihlašují přes Connect; nejsou-li připojené, řekni to a nedomýšlej. Část
+   nástrojů Merku ubírá z měsíčního limitu (seznam v `references/merk.md`).
 8. **Web jen doplněk; do žádného parametru (ani `objective`) nikdy klient ani věc.**
 
 ## Kam se kterým dotazem
@@ -161,8 +162,8 @@ jen na část — a co jsi neověřil, napiš, že jsi neověřil.
    nebo střetu zájmů `relations_get_shortest_path` mezi stranami
 8. jde-li o nemovitostní transakci: `kn_*` → LV, plomby, způsoby ochrany, právo
    stavby, vazba stavby k pozemku
-9. je-li spor nebo sporná otázka a máš balíček Legal: Salvia → judikatura k tomu
-   typu vztahu
+9. je-li spor nebo sporná otázka a máš balíček Legal: Salvia → judikatura k typu vztahu
+10. je-li připojený Newton: `newton_monitoringy` → `newton_hledat` (dotaz = název firmy) → výstupy s výňatkem, médiem, datem a odkazem, celé texty jen u podstatných (`newton_clanek`); jinak napiš „média neověřena“ (`references/newton.md`)
 
 ## Propojení rejstříků
 
@@ -296,5 +297,4 @@ IČO, sídlo, spisovou značku a jednající osobu s funkcí a způsobem jednán
 U nemovitostí parcelní číslo nebo č. p., katastrální území, obec a číslo LV —
 tak, jak se nemovitost označuje ve smlouvě.
 
-Podrobnosti: `references/` — `ares`, `katastr`, `sagasu`, `merk`, `leady`, `web`
-a `listiny` (sbírka listin), vždy `.md`.
+Podrobnosti: `references/` — `ares`, `katastr`, `sagasu`, `merk`, `leady`, `newton`, `web`, `listiny` (`.md`).

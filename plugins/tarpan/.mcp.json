@@ -23,6 +23,10 @@
     "parallel-search": {
       "type": "http",
       "url": "https://search.parallel.ai/mcp"
+    },
+    "tarpan-newton": {
+      "type": "http",
+      "url": "https://tarpan-newton.janforejtar.com/mcp"
     }
   }
 }

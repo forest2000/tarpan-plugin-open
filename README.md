@@ -22,7 +22,7 @@ instalovat nemusíš.
 
 | Balíček | Pro koho | Co přináší |
 |---|---|---|
-| **tarpan** (základ) | všichni | ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty úroku, odměny a soudního poplatku), Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), Leady (firmy na webu kanceláře; oba s přihlášením účtem Saleskit) a vyhledávání na webu (Parallel Search). Výpisy do Wordu v úpravě TARPAN. Skilly `tarpan`, `rukopis` (přepis textu do tvého stylu) a `remove-ai-marks` (čištění souboru před odesláním). |
+| **tarpan** (základ) | všichni | ARES, katastr nemovitostí ČR, Sagasu (insolvence, DPH, datové schránky, zaniklé subjekty, SK rejstříky, advokáti, výpočty úroku, odměny a soudního poplatku), Merk (finanční ukazatele, účetní výkazy, graf vlastnických a personálních vazeb), Leady (firmy na webu kanceláře; oba s přihlášením účtem Saleskit), mediální monitoring Newton Media (s přihlášením účtem Newton) a vyhledávání na webu (Parallel Search). Výpisy do Wordu v úpravě TARPAN. Skilly `tarpan`, `rukopis` (přepis textu do tvého stylu) a `remove-ai-marks` (čištění souboru před odesláním). |
 | **tarpan-legal** | advokáti, koncipienti | Navíc judikatura (Salvia), e-Sbírka a e-Legislativa, komentářová literatura a unijní právo (EUR-Lex/CELLAR). Skilly: metodika advokáta, právní rešerše, kontrola smlouvy, NDA, triáž zadání, GDPR. |
 | **tarpan-partners** | kancelář | Zatím základ TARPAN (rejstříky, katastr, Merk, výpisy do Wordu); kancelářské skilly přibudou. |
 
@@ -35,6 +35,32 @@ instalovat nemusíš.
 Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
 
 ## Změny
+
+**tarpan 4.2.0**
+
+- Nový konektor **Newton Media** (`tarpan-newton`): mediální monitoring
+  kanceláře přímo v Claude. Hledání výstupů v tisku, na webu, v TV a rozhlase
+  za období s filtry (dotaz, titulek, autor, téma, složka, zdroj, typ média,
+  sentiment, řazení), celé texty článků po částech, alerty a newsmaily
+  i jejich články, výstřižky z tisku (e-clip) jako obrázek, u TV a rozhlasu
+  odkaz na video a přepis, našeptávač zdrojů a autorů.
+- **Je potřeba jednou připojit:** v Claude u konektoru Newton klikni na
+  **Connect**. Přihlašovací stránku zobrazuje TARPAN, ne Newton; zadáš na ní
+  své jméno a heslo do NewtonOne. Heslo se uloží zašifrované ve workeru
+  a token Newtonu si obnovuje sám. Účet musí mít od Newton Media přidělené
+  oprávnění k veřejnému API (role `PublicApiUser`) a práva k monitoringům,
+  se kterými má pracovat; chybí-li některé z toho, konektor vrátí chybu 403.
+  O obojí se žádá u Newton Media. Po změně hesla konektor odpoj a připoj znovu.
+- Hledá se jen v monitoringech, které má kancelář u Newtonu nastavené, ne
+  v celém mediálním archivu. Co v monitoringu není, neznamená, že o subjektu
+  nikdo nepsal. U článků za paywallem dává Newton jen perex, celý text nemá.
+- **Na výslovný pokyn umí Claude také přidat nebo odebrat články ve složce
+  monitoringu** a předem řekne, co změní. Jiný zápis do Newtonu konektor
+  nedělá.
+- Každá informace z médií jde ven s doslovným výňatkem a odkazem na článek.
+  Převzaté kopie téže zprávy se neslučují — každý článek je samostatný, u něj
+  je jen Newtonovo zařazení do skupiny, protože Newton řadí k jedné zprávě
+  i texty s vlastním obsahem.
 
 **tarpan 4.1.2**
 
