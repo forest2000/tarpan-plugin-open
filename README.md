@@ -36,6 +36,15 @@ Musí být vidět tři položky: `tarpan`, `tarpan-legal`, `tarpan-partners`.
 
 ## Změny
 
+**tarpan 5.0.0**
+
+- Konektor **Newton Media** už nenabízí nástroj `newton_zakaznici` (hledání
+  zákazníků Newtonu). Je to administrátorská funkce Newtonu a účtům kanceláře
+  vždy vracel chybu 403. Ostatní nástroje fungují beze změny.
+- Opravy konektoru Newton: číslo vydání tištěného článku se najde i bez
+  zadané masky zdroje, chyba Newtonu u e-clipů typu Web je srozumitelná
+  a prázdný přepis videa nebo podcastu se hlásí jako „přepis není“.
+
 **tarpan 4.2.0**
 
 - Nový konektor **Newton Media** (`tarpan-newton`): mediální monitoring

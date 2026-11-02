@@ -46,7 +46,6 @@ a připojit znovu) a mediální výstupy nedomýšlej.
   a odkazem na článek.
 - `newton_vydani`, `newton_metadata` — číslo vydání, detail zdrojů, pořadů, autorů.
 - `newton_ucet` — účet a role; použij, když Newton vrátí 403.
-- `newton_zakaznici` — jen pro administrátorský účet Newtonu.
 - `newton_slozka` — **mění data v Newtonu** (přidá nebo odebere články ve složce).
 
 ## Pravidla
